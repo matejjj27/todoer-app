@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  p {
+    @apply text-white;
+  }
+  .nav-item {
+    @apply cursor-pointer self-center text-base py-6 max-sm:py-4 max-sm:text-sm opacity-50;
+  }
+  .nav-item-with-logo {
+    @apply flex gap-2 self-center;
+  }
+  .nav-wrapper {
+    @apply text-center flex justify-between px-10 max-sm:px-4;
+  }
+  .selected {
+    @apply border-b-2 border-white opacity-100;
+  }
+
+  .todo-card {
+    @apply bg-gray-800 p-3 flex flex-col rounded-lg min-h-[12rem] w-52;
+  }
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #36393f;
+}
