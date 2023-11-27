@@ -21,12 +21,18 @@ interface TodoProviderProps {
   children: ReactNode;
 }
 
+const initialValues = {
+  categoryCounter: 0,
+  todoCounter: 0,
+  categories: []
+};
+
 export const TodoContext = createContext<Todos>({} as Todos);
 
 const TodoProvider = ({ children }: TodoProviderProps) => {
   const data = useTodoCategories();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [appData, setAppData] = useState<IAppData>({});
+  const [appData, setAppData] = useState<IAppData>(initialValues);
 
   const editCategories = (newCategories: ITodoCategory[]) => {
     localStorage.setItem(
@@ -149,8 +155,13 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
   const getTodoCategories = async () => {
     setIsLoading(true);
 
-    const newTodos = await JSON.parse(localStorage.getItem("appData"));
-    setAppData(newTodos || data);
+    const todoFromStorage = localStorage.getItem("appData");
+    if (todoFromStorage) {
+      const newTodos = await JSON.parse(todoFromStorage);
+      setAppData(newTodos);
+    } else {
+      setAppData(data);
+    }
 
     setIsLoading(false);
   };
