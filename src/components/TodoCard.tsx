@@ -1,37 +1,53 @@
-import { useContext } from "react";
-import { ITodoCategory } from "../utils/types";
 import { PlusIcon } from "@heroicons/react/24/solid";
-import { TodoContext } from "../context/TodoContext";
+import { ITodoCategory } from "../utils/types";
 import Category from "./Category";
-import Todos from "./Todos";
+import Todo from "./Todo";
+import { Draggable } from "react-beautiful-dnd";
+import { useContext } from "react";
+import { TodoContext } from "../context/TodoContext";
 
 interface TodoCardProps {
   todoCategory: ITodoCategory;
 }
 
 function TodoCard({ todoCategory }: TodoCardProps) {
-  const { todos } = todoCategory;
   const { addNewTodo } = useContext(TodoContext);
 
   return (
-    <div className="todo-card p-4 rounded-lg shadow-md flex flex-col justify-between gap-2">
-      <div>
-        <Category todoCategory={todoCategory} />
+    <div className="flex flex-col">
+      <Category todoCategory={todoCategory} />
 
-        <Todos todos={todos} todoCategory={todoCategory} />
-        {/* <div className="mt-1 flex flex-col gap-1">
-          {todos.map((todo) => (
-            <Todo key={todo.id} todo={todo} todoCategory={todoCategory} />
+      <div className="mt-1 flex flex-col gap-1 justify-between">
+        <div>
+          {todoCategory?.todos?.map((todo, index) => (
+            <Draggable key={todo.id} draggableId={todo.id} index={index}>
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                  className={`mt-1 flex flex-col gap-1 py-3 rounded-md ${
+                    snapshot.isDragging ? "border-gray-900 border-2" : ""
+                  }`}
+                >
+                  <Todo key={todo.id} todo={todo} todoCategory={todoCategory} />
+                </div>
+              )}
+            </Draggable>
           ))}
-        </div> */}
-      </div>
+        </div>
 
-      <PlusIcon
-        height={22}
-        color="white"
-        className="cursor-pointer self-center"
-        onClick={() => addNewTodo(todoCategory)}
-      />
+        <div
+          className="cursor-pointer self-center"
+          onClick={() => addNewTodo(todoCategory)}
+        >
+          <PlusIcon
+            height={22}
+            color="white"
+            className="cursor-pointer self-center"
+          />
+        </div>
+      </div>
     </div>
   );
 }

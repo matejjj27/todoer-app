@@ -7,6 +7,7 @@ interface Todos {
   appData: IAppData;
   isLoading: boolean;
   getTodoCategories: () => void;
+  editCategories: (newCategories: ITodoCategory[]) => void;
   addNewCategory: (newCategory: ITodoCategory) => void;
   deleteCategory: (category: ITodoCategory) => void;
   editCategory: (category: ITodoCategory) => void;
@@ -26,6 +27,22 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
   const data = useTodoCategories();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [appData, setAppData] = useState<IAppData>({});
+
+  const editCategories = (newCategories: ITodoCategory[]) => {
+    localStorage.setItem(
+      "appData",
+      JSON.stringify({
+        ...appData,
+        categories: newCategories
+      })
+    );
+    setAppData((prev) => {
+      return {
+        ...prev,
+        categories: newCategories
+      };
+    });
+  };
 
   const addNewCategory = (newCategory: ITodoCategory) => {
     localStorage.setItem(
@@ -146,6 +163,7 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
     appData,
     isLoading,
     getTodoCategories,
+    editCategories,
     addNewCategory,
     deleteCategory,
     editCategory,
