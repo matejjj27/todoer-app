@@ -9,6 +9,7 @@ import { PlusIcon } from "@heroicons/react/24/solid";
 import { TodoContext } from "../context/TodoContext.tsx";
 import { ITodo } from "../utils/types.ts";
 import TodoCard from "../components/TodoCard.tsx";
+import withTopNavigation from "../HOCs/withTopNavigation.tsx";
 
 const Home = () => {
   const { appData, addNewCategory, editCategories } = useContext(TodoContext);
@@ -128,4 +129,5 @@ const Home = () => {
   );
 };
 
-export default Home;
+const HomeWithTopNavigation = withTopNavigation(Home);
+export default HomeWithTopNavigation;
