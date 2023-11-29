@@ -13,14 +13,14 @@
     @apply flex gap-2 self-center;
   }
   .nav-wrapper {
-    @apply text-center flex justify-between px-10 max-sm:px-4 bg-gray-500 dark:bg-gray-600;
+    @apply text-center flex justify-between px-10 max-sm:px-4 bg-gray-300 dark:bg-gray-600;
   }
   .selected {
     @apply border-b-2 border-black dark:border-white opacity-100;
   }
 
   .todo-card {
-    @apply dark:bg-gray-800 bg-gray-300 p-3 flex flex-col rounded-lg min-h-[12rem] w-52;
+    @apply dark:bg-gray-800 bg-gray-300 p-3 flex flex-col justify-between rounded-lg min-h-[12rem] w-52;
   }
 }
 

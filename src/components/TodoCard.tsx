@@ -16,10 +16,10 @@ function TodoCard({ todoCategory }: TodoCardProps) {
   const { isDarkMode } = useContext(UIContext);
 
   return (
-    <div className="flex flex-col">
-      <Category todoCategory={todoCategory} />
-
+    <>
       <div className="mt-1 flex flex-col gap-1 justify-between">
+        <Category todoCategory={todoCategory} />
+
         <div>
           {todoCategory?.todos?.map((todo, index) => (
             <Draggable key={todo.id} draggableId={todo.id} index={index}>
@@ -29,7 +29,9 @@ function TodoCard({ todoCategory }: TodoCardProps) {
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
                   className={`mt-1 flex flex-col gap-1 py-3 rounded-md ${
-                    snapshot.isDragging ? "border-gray-400 dark:border-gray-900 border-2" : ""
+                    snapshot.isDragging
+                      ? "border-gray-400 dark:border-gray-900 border-2"
+                      : ""
                   }`}
                 >
                   <Todo key={todo.id} todo={todo} todoCategory={todoCategory} />
@@ -38,19 +40,14 @@ function TodoCard({ todoCategory }: TodoCardProps) {
             </Draggable>
           ))}
         </div>
-
-        <div
-          className="cursor-pointer self-center"
-          onClick={() => addNewTodo(todoCategory)}
-        >
-          <PlusIcon
-            height={22}
-            color={isDarkMode ? "white" : "black"}
-            className="cursor-pointer self-center"
-          />
-        </div>
       </div>
-    </div>
+      <div
+        className="cursor-pointer self-center"
+        onClick={() => addNewTodo(todoCategory)}
+      >
+        <PlusIcon height={22} color={isDarkMode ? "white" : "black"} />
+      </div>
+    </>
   );
 }
 

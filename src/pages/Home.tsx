@@ -96,36 +96,37 @@ const Home = () => {
   };
 
   return (
-    <div className="bg-gray-400 dark:bg-gray-700 p-20 flex justify-center max-sm:p-10 gap-6 flex-wrap">
-      <DragDropContext onDragEnd={onDragEnd}>
-        {todoCategories?.map((todoCategory, index) => (
-          <Droppable key={todoCategory.id} droppableId={`${index}`}>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                className="todo-card p-4 rounded-lg shadow-md flex flex-col justify-between gap-2"
-              >
-                <TodoCard todoCategory={todoCategory} />
+    <div className="min-h-screen bg-white dark:bg-gray-700">
+      <div className="p-20 flex justify-center max-sm:p-10 gap-6 flex-wrap">
+        <DragDropContext onDragEnd={onDragEnd}>
+          {todoCategories?.map((todoCategory, index) => (
+            <Droppable key={todoCategory.id} droppableId={`${index}`}>
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className="todo-card p-4 rounded-lg shadow-md gap-2"
+                >
+                  <TodoCard todoCategory={todoCategory} />
 
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        ))}
-      </DragDropContext>
-
-      <div
-        className="todo-card text-center justify-center cursor-pointer"
-        onClick={() =>
-          addNewCategory({
-            label: `Category ${appData.categoryCounter + 1}`,
-            todos: [],
-            id: `${appData.categoryCounter}`
-          })
-        }
-      >
-        <PlusIcon height={60} color={isDarkMode ? "white" : "black"} />
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          ))}
+          <div
+            className="todo-card text-center justify-center cursor-pointer"
+            onClick={() =>
+              addNewCategory({
+                label: `Category ${appData.categoryCounter + 1}`,
+                todos: [],
+                id: `${appData.categoryCounter}`
+              })
+            }
+          >
+            <PlusIcon height={60} color={isDarkMode ? "white" : "black"} />
+          </div>
+        </DragDropContext>
       </div>
     </div>
   );
