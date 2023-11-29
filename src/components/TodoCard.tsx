@@ -5,6 +5,7 @@ import Todo from "./Todo";
 import { Draggable } from "react-beautiful-dnd";
 import { useContext } from "react";
 import { TodoContext } from "../context/TodoContext";
+import { UIContext } from "../context/UIContext";
 
 interface TodoCardProps {
   todoCategory: ITodoCategory;
@@ -12,6 +13,7 @@ interface TodoCardProps {
 
 function TodoCard({ todoCategory }: TodoCardProps) {
   const { addNewTodo } = useContext(TodoContext);
+  const { isDarkMode } = useContext(UIContext);
 
   return (
     <div className="flex flex-col">
@@ -27,7 +29,7 @@ function TodoCard({ todoCategory }: TodoCardProps) {
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
                   className={`mt-1 flex flex-col gap-1 py-3 rounded-md ${
-                    snapshot.isDragging ? "border-gray-900 border-2" : ""
+                    snapshot.isDragging ? "border-gray-400 dark:border-gray-900 border-2" : ""
                   }`}
                 >
                   <Todo key={todo.id} todo={todo} todoCategory={todoCategory} />
@@ -43,7 +45,7 @@ function TodoCard({ todoCategory }: TodoCardProps) {
         >
           <PlusIcon
             height={22}
-            color="white"
+            color={isDarkMode ? "white" : "black"}
             className="cursor-pointer self-center"
           />
         </div>

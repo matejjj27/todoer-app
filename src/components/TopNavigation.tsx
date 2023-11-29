@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LogoSvg from "./LogoSvg";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
+import { UIContext } from "../context/UIContext";
 
 const navCategories = [
   { path: "/", label: "Today" },
@@ -13,7 +14,7 @@ const navCategories = [
 const TopNavigation = () => {
   const [isMobile, setIsMobile] = useState<boolean>(true);
   const [selectedCategory, setSelectedCategory] = useState("Today");
-  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const { isDarkMode, setDarkMode } = useContext(UIContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,29 +24,15 @@ const TopNavigation = () => {
     };
     handleResize();
     window.addEventListener("resize", handleResize);
-
-    const body = document.body;
-    const darkModeStored = localStorage.getItem("darkMode") === "true";
-    body.classList.toggle("dark", darkModeStored);
-    setDarkMode(darkModeStored);
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  const toggleDarkMode = () => {
-    const body = document.body;
-    body.classList.toggle("dark");
-    const isDarkMode = body.classList.contains("dark");
-    setDarkMode(isDarkMode);
-    localStorage.setItem("darkMode", String(isDarkMode));
-  };
-
   return (
     <nav className="nav-wrapper">
       <div className="nav-item-with-logo">
-        <LogoSvg />
+        <LogoSvg color={isDarkMode ? "white" : "black"} />
         {!isMobile && <p className="max-sm:text-sm self-center">Todos</p>}
       </div>
 
@@ -67,11 +54,11 @@ const TopNavigation = () => {
       </div>
 
       <div className="nav-item-with-logo">
-        <button onClick={toggleDarkMode} className="p-2">
-          {darkMode ? (
+        <button onClick={() => setDarkMode()} className="pr-2">
+          {isDarkMode ? (
             <SunIcon className="h-6 w-6 text-yellow-500" />
           ) : (
-            <MoonIcon className="h-6 w-6 text-gray-700" />
+            <MoonIcon className="h-5 w-5 text-gray-700" />
           )}
         </button>
       </div>

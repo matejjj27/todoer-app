@@ -1,9 +1,9 @@
-const LogoSvg = () => (
+const LogoSvg = ({ color }: { color: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className="flex h-9 self-center max-sm:h-7"
     viewBox="0 0 100 100"
-    fill="white"
+    fill={color}
   >
     <path
       xmlns="http://www.w3.org/2000/svg"

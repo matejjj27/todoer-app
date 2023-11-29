@@ -36,13 +36,13 @@ const Todo = ({ todo, todoCategory }: TodoProps) => {
           onChange={() => completeTodo(todo, todoCategory)}
         />
       </div>
-      <div className="flex justify-between gap-2 text-white max-w-full">
+      <div className="flex justify-between gap-2 text-gray-900 dark:text-white max-w-full">
         <input
           name="todo-label"
           onFocus={() => setIsEditing(true)}
           className={`${isEditing ? "" : "cursor-pointer"} ${
-            !isCompleted ? "" : "text-gray-600 line-through"
-          } bg-gray-800 text-sm overflow-hidden outline-none`}
+            !isCompleted ? "" : "text-gray-500 dark:text-gray-600 line-through"
+          } bg-gray-300 dark:bg-gray-800 text-sm overflow-hidden outline-none`}
           value={editedLabel}
           onChange={(e) => setEditedLabel(e.target.value)}
           onBlur={handleEditTodo}

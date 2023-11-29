@@ -10,8 +10,10 @@ import { TodoContext } from "../context/TodoContext.tsx";
 import { ITodo } from "../utils/types.ts";
 import TodoCard from "../components/TodoCard.tsx";
 import withTopNavigation from "../HOCs/withTopNavigation.tsx";
+import { UIContext } from "../context/UIContext.tsx";
 
 const Home = () => {
+  const { isDarkMode } = useContext(UIContext);
   const { appData, addNewCategory, editCategories } = useContext(TodoContext);
   const { categories: todoCategories } = appData;
 
@@ -94,7 +96,7 @@ const Home = () => {
   };
 
   return (
-    <div className="bg-gray-700 p-20 flex justify-center max-sm:p-10 gap-6 flex-wrap">
+    <div className="bg-gray-400 dark:bg-gray-700 p-20 flex justify-center max-sm:p-10 gap-6 flex-wrap">
       <DragDropContext onDragEnd={onDragEnd}>
         {todoCategories?.map((todoCategory, index) => (
           <Droppable key={todoCategory.id} droppableId={`${index}`}>
@@ -123,7 +125,7 @@ const Home = () => {
           })
         }
       >
-        <PlusIcon height={60} color="white" />
+        <PlusIcon height={60} color={isDarkMode ? "white" : "black"} />
       </div>
     </div>
   );

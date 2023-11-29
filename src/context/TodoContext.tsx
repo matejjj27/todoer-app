@@ -79,7 +79,6 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
     setAppData((prev) => {
       return { ...prev, categories: newCategories };
     });
-    console.log({ ...appData, categories: newCategories }, "after delete");
   };
 
   const editCategory = (category: ITodoCategory) => {
