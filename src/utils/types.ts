@@ -17,6 +17,6 @@ export interface IAppData {
 }
 
 export interface ComponentWithSideNav {
-  isSideNavOpened: boolean;
+  isSideNavOpened?: boolean;
   toggleSideNav?: () => void;
 }
