@@ -7,12 +7,12 @@ import {
 } from "react-beautiful-dnd";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { TodoContext } from "../context/TodoProvider.tsx";
-import { ITodo } from "../utils/types.ts";
+import { ComponentWithSideNav, ITodo } from "../utils/types.ts";
 import TodoCard from "../components/TodoCard.tsx";
 import withNavigation from "../HOCs/withNavigation.tsx";
 import { UIContext } from "../context/UIProvider.tsx";
 
-const Home = () => {
+const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
   const { isDarkMode } = useContext(UIContext);
   const { appData, addNewCategory, editCategories } = useContext(TodoContext);
   const { categories: todoCategories } = appData;
@@ -96,8 +96,12 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-850">
-      <div className="p-20 flex justify-center max-sm:p-10 gap-6 flex-wrap">
+    <div
+      className={`min-h-screen bg-white dark:bg-gray-850 ${
+        isSideNavOpened ? "pl-64" : "pl-0"
+      } max-sm:pl-0`}
+    >
+      <div className="p-20 flex justify-center max-sm:p-10 gap-5 flex-wrap">
         <DragDropContext onDragEnd={onDragEnd}>
           {todoCategories?.map((todoCategory, index) => (
             <Droppable key={todoCategory.id} droppableId={`${index}`}>

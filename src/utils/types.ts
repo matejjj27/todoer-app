@@ -15,3 +15,8 @@ export interface IAppData {
   todoCounter: number;
   categories: ITodoCategory[];
 }
+
+export interface ComponentWithSideNav {
+  isSideNavOpened: boolean;
+  toggleSideNav?: () => void;
+}
