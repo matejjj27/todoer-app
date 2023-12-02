@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LogoSvg from "./LogoSvg";
+import LogoSvg from "../LogoSvg";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
-import { UIContext } from "../context/UIContext";
-import { navCategories } from "../utils/constants";
+import { UIContext } from "../../context/UIProvider";
+import { navCategories } from "../../utils/constants";
 
 const TopNavigation = () => {
   const [isMobile, setIsMobile] = useState<boolean>(true);

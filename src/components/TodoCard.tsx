@@ -4,8 +4,8 @@ import Category from "./Category";
 import Todo from "./Todo";
 import { Draggable } from "react-beautiful-dnd";
 import { useContext } from "react";
-import { TodoContext } from "../context/TodoContext";
-import { UIContext } from "../context/UIContext";
+import { TodoContext } from "../context/TodoProvider";
+import { UIContext } from "../context/UIProvider";
 
 interface TodoCardProps {
   todoCategory: ITodoCategory;

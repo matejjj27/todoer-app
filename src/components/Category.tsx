@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { ITodoCategory } from "../utils/types";
 import { MinusIcon } from "@heroicons/react/24/solid";
-import { TodoContext } from "../context/TodoContext";
+import { TodoContext } from "../context/TodoProvider";
 
 interface CategoryProps {
   todoCategory: ITodoCategory;

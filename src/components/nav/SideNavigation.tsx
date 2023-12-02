@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-import { UIContext } from "../context/UIContext";
-import { navCategories } from "../utils/constants";
-import LogoSvg from "./LogoSvg";
+import { UIContext } from "../../context/UIProvider";
+import { navCategories } from "../../utils/constants";
+import LogoSvg from "../LogoSvg";
 import { useNavigate } from "react-router-dom";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 

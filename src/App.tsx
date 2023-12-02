@@ -1,7 +1,7 @@
 import { RouterProvider } from "react-router-dom";
 import router from "./navigation/router";
-import TodoProvider from "./context/TodoContext";
-import UIProvider from "./context/UIContext";
+import TodoProvider from "./context/TodoProvider";
+import UIProvider from "./context/UIProvider";
 
 function App() {
   return (
