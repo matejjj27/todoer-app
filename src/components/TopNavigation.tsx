@@ -3,13 +3,7 @@ import { useNavigate } from "react-router-dom";
 import LogoSvg from "./LogoSvg";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 import { UIContext } from "../context/UIContext";
-
-const navCategories = [
-  { path: "/", label: "Today" },
-  { path: "/", label: "Tomorrow" },
-  { path: "/", label: "This Week" },
-  { path: "/", label: "This Month" }
-];
+import { navCategories } from "../utils/constants";
 
 const TopNavigation = () => {
   const [isMobile, setIsMobile] = useState<boolean>(true);

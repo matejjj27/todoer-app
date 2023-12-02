@@ -9,8 +9,10 @@ import { PlusIcon } from "@heroicons/react/24/solid";
 import { TodoContext } from "../context/TodoContext.tsx";
 import { ITodo } from "../utils/types.ts";
 import TodoCard from "../components/TodoCard.tsx";
-import withTopNavigation from "../HOCs/withTopNavigation.tsx";
+import withNavigation from "../HOCs/withNavigation.tsx";
 import { UIContext } from "../context/UIContext.tsx";
+import TopNavigation from "../components/TopNavigation.tsx";
+import SideNavigation from "../components/SideNavigation.tsx";
 
 const Home = () => {
   const { isDarkMode } = useContext(UIContext);
@@ -132,5 +134,5 @@ const Home = () => {
   );
 };
 
-const HomeWithTopNavigation = withTopNavigation(Home);
-export default HomeWithTopNavigation;
+const HomeWithNavigation = withNavigation(Home, SideNavigation);
+export default HomeWithNavigation;

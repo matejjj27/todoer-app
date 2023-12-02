@@ -42,7 +42,7 @@ const Todo = ({ todo, todoCategory }: TodoProps) => {
           onFocus={() => setIsEditing(true)}
           className={`${isEditing ? "" : "cursor-pointer"} ${
             !isCompleted ? "" : "text-gray-500 dark:text-gray-600 line-through"
-          } bg-gray-300 dark:bg-gray-800 text-sm overflow-hidden outline-none`}
+          } bg-transparent text-sm overflow-hidden outline-none`}
           value={editedLabel}
           onChange={(e) => setEditedLabel(e.target.value)}
           onBlur={handleEditTodo}

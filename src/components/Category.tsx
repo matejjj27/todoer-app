@@ -28,7 +28,7 @@ const Category = ({ todoCategory }: CategoryProps) => {
         onFocus={() => setIsEditing(true)}
         className={`${
           isEditing ? "" : "cursor-pointer"
-        } flex-grow text-2xl font-bold bg-gray-300 dark:bg-gray-800 text-gray-900 dark:text-white overflow-hidden whitespace-nowrap max-w-full border-none outline-none`}
+        } flex-grow text-2xl font-bold bg-transparent text-gray-900 dark:text-white overflow-hidden whitespace-nowrap max-w-full border-none outline-none`}
         value={editedLabel}
         onChange={(e) => setEditedLabel(e.target.value)}
         onBlur={handleEditCategory}
