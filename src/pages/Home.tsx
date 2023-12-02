@@ -11,8 +11,6 @@ import { ITodo } from "../utils/types.ts";
 import TodoCard from "../components/TodoCard.tsx";
 import withNavigation from "../HOCs/withNavigation.tsx";
 import { UIContext } from "../context/UIProvider.tsx";
-import TopNavigation from "../components/nav/TopNavigation.tsx";
-import SideNavigation from "../components/nav/SideNavigation.tsx";
 
 const Home = () => {
   const { isDarkMode } = useContext(UIContext);

@@ -1,14 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { UIContext } from "../../context/UIProvider";
-import { navCategories } from "../../utils/constants";
-import LogoSvg from "../LogoSvg";
-import { useNavigate } from "react-router-dom";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 
 const SideNavigation = () => {
-  const [selectedCategory, setSelectedCategory] = useState("Today");
   const { isDarkMode, setDarkMode } = useContext(UIContext);
-  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-gray-50 text-gray-800 dark:bg-gray-600 dark:text-white">
