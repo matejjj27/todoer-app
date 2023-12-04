@@ -2,9 +2,11 @@ import { useContext } from "react";
 import { UIContext } from "../../context/UIProvider";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 import { ComponentWithSideNav } from "../../utils/types";
+import { TodoContext } from "../../context/TodoProvider";
 
 const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
   const { isDarkMode, setDarkMode } = useContext(UIContext);
+  const { appData } = useContext(TodoContext);
 
   return (
     <div className="bg-gray-350 dark:bg-gray-750">
@@ -32,8 +34,8 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              clip-rule="evenodd"
-              fill-rule="evenodd"
+              clipRule="evenodd"
+              fillRule="evenodd"
               d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
             ></path>
           </svg>
@@ -65,15 +67,15 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    clip-rule="evenodd"
-                    fill-rule="evenodd"
+                    clipRule="evenodd"
+                    fillRule="evenodd"
                     d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
                   ></path>
                 </svg>
               </button>
             </li>
           </ul>
-          <p className="flex items-center ml-1 pt-3 text-sm text-gray-600 rounded-lg dark:text-gray-500">
+          <p className="flex items-center ml-1 text-sm text-gray-600 rounded-lg dark:text-gray-500">
             TODOS
           </p>
           <ul className="space-y-2 py-2 font-medium border-t border-gray-200 dark:border-gray-700">
@@ -139,41 +141,26 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
             CATEGORIES
           </p>
           <ul className="space-y-2 py-2 font-medium border-t border-gray-200 dark:border-gray-700">
-            <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-650 dark:text-white group"
-              >
-                <svg
-                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 18"
+            {appData.categories.map((category) => (
+              <li key={category.id}>
+                <a
+                  href="#"
+                  className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-650 dark:text-white group"
                 >
-                  <path d="M18 0H6a2 2 0 0 0-2 2h14v12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Z" />
-                  <path d="M14 4H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2ZM2 16v-6h12v6H2Z" />
-                </svg>
-                <span className="ms-3">Personal</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-650 dark:text-white group"
-              >
-                <svg
-                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 16 20"
-                >
-                  <path d="M16 14V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 0 0 0-2h-1v-2a2 2 0 0 0 2-2ZM4 2h2v12H4V2Zm8 16H3a1 1 0 0 1 0-2h9v2Z" />
-                </svg>
-                <span className="ms-3">Work</span>
-              </a>
-            </li>
+                  <div
+                    className={`flex-shrink-0 w-5 h-5 transition duration-75 rounded-md group-hover:text-gray-900 dark:group-hover:text-white bg-${category.bgColor}-800`}
+                  />
+                  <span className="flex-1 ms-3 whitespace-nowrap">
+                    {category.label}
+                  </span>
+                  <span
+                    className={`inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-${category.bgColor}-800 bg-${category.bgColor}-100 rounded-full dark:bg-${category.bgColor}-900 dark:text-${category.bgColor}-300`}
+                  >
+                    {category.todos.length}
+                  </span>
+                </a>
+              </li>
+            ))}
             <li>
               <div className="nav-item-with-logo">
                 <button onClick={() => setDarkMode()} className="pr-2">

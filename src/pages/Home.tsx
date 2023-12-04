@@ -97,11 +97,18 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
 
   return (
     <div
-      className={`min-h-screen bg-white dark:bg-gray-850 ${
+      className={`min-h-screen bg-white dark:bg-gray-850 py-7 p- ${
         isSideNavOpened ? "pl-64" : "pl-0"
       } max-sm:pl-0`}
     >
-      <div className="p-20 flex justify-center max-sm:p-10 gap-5 flex-wrap">
+      <h1
+        className={`dark:text-white text-3xl pl-3 ${
+          !isSideNavOpened ? "pl-16" : ""
+        }`}
+      >
+        Sticky Wall
+      </h1>
+      <div className="flex justify-center gap-5 flex-wrap border-2 rounded-lg ml-2 mr-5 p-5 my-8 border-gray-350 dark:border-gray-900">
         <DragDropContext onDragEnd={onDragEnd}>
           {todoCategories?.map((todoCategory, index) => (
             <Droppable key={todoCategory.id} droppableId={`${index}`}>
@@ -124,6 +131,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
               addNewCategory({
                 label: `Category ${appData.categoryCounter + 1}`,
                 todos: [],
+                bgColor: "white",
                 id: `${appData.categoryCounter}`
               })
             }

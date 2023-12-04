@@ -7,6 +7,7 @@ export interface ITodo {
 export interface ITodoCategory {
   id: string;
   label: string;
+  bgColor: string;
   todos: ITodo[];
 }
 
