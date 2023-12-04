@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import SideNav from "../components/nav/SideNav";
+import UIModeSwitch from "../components/UIModeSwitch";
 
 const withNavigation = <P extends object>(
   WrappedComponent: React.ComponentType<P>
@@ -13,6 +14,8 @@ const withNavigation = <P extends object>(
           isSideNavOpened={isSideNavOpened}
           toggleSideNav={() => setIsSideNavOpened((prev) => !prev)}
         />
+        <UIModeSwitch />
+
         <WrappedComponent
           {...props}
           isSideNavOpened={isSideNavOpened}

@@ -103,7 +103,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
     >
       <h1
         className={`dark:text-white text-3xl pl-3 ${
-          !isSideNavOpened ? "pl-16" : ""
+          !isSideNavOpened ? "ml-16" : ""
         }`}
       >
         Sticky Wall
