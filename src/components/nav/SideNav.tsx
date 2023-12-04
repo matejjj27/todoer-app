@@ -21,7 +21,6 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
           data-drawer-target="separator-sidebar"
           data-drawer-toggle="separator-sidebar"
           aria-controls="separator-sidebar"
-          type="button"
           onClick={toggleSideNav}
           className={`${
             isSideNavOpened ? "hidden" : ""
@@ -82,10 +81,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
           </p>
           <ul className="space-y-2 py-2 font-medium border-t border-gray-200 dark:border-gray-700">
             <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-650 group"
-              >
+              <a className="flex cursor-pointer items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-650 group">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
@@ -98,9 +94,9 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
                     clipRule="evenodd"
                   />
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M4.21 14.77a.75.75 0 01.02-1.06L8.168 10 4.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
 
@@ -111,10 +107,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
               </a>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-650 group"
-              >
+              <a className="flex cursor-pointer items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-650 group">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -131,16 +124,13 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
                 </svg>
 
                 <span className="flex-1 ms-3 whitespace-nowrap">Today</span>
-                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-red-800 bg-red-100 rounded-full dark:bg-red-900 dark:text-red-300">
                   {todaysTodos}
                 </span>
               </a>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-650 group"
-              >
+              <a className="flex cursor-pointer items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-650 group">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -160,10 +150,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
               </a>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-650 group"
-              >
+              <a className="flex cursor-pointer items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-650 group">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -189,26 +176,26 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
             CATEGORIES
           </p>
           <ul className="space-y-2 py-2 font-medium border-t border-gray-200 dark:border-gray-700">
-            {appData.categories.map((category) => (
-              <li key={category.id}>
-                <a
-                  href="#"
-                  className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-650 dark:text-white group"
-                >
-                  <div
-                    className={`flex-shrink-0 w-5 h-5 transition duration-75 rounded-md group-hover:text-gray-900 dark:group-hover:text-white bg-${category.bgColor}-800`}
-                  />
-                  <span className="flex-1 ms-3 whitespace-nowrap">
-                    {category.label}
-                  </span>
-                  <span
-                    className={`inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-${category.bgColor}-800 bg-${category.bgColor}-100 rounded-full dark:bg-${category.bgColor}-900 dark:text-${category.bgColor}-300`}
-                  >
-                    {category.todos.length}
-                  </span>
-                </a>
-              </li>
-            ))}
+            {appData.categories.map((category) => {
+              const { id, label, todos, bgColor } = category;
+              return (
+                <li key={id}>
+                  <a className="flex cursor-pointer items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-650 dark:text-white group">
+                    <div
+                      className={`flex-shrink-0 w-5 h-5 transition duration-75 rounded-md group-hover:text-gray-900 dark:group-hover:text-white bg-${bgColor}-800`}
+                    />
+                    <span className="flex-1 ms-3 whitespace-nowrap">
+                      {label}
+                    </span>
+                    <span
+                      className={`inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-${bgColor}-800 bg-${bgColor}-100 rounded-full dark:bg-${bgColor}-900 dark:text-${bgColor}-300`}
+                    >
+                      {todos.length}
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </aside>

@@ -110,23 +110,26 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
       </h1>
       <div className="flex justify-center gap-5 flex-wrap border-2 rounded-lg ml-2 mr-5 p-5 my-8 border-gray-350 dark:border-gray-900">
         <DragDropContext onDragEnd={onDragEnd}>
-          {todoCategories?.map((todoCategory, index) => (
-            <Droppable key={todoCategory.id} droppableId={`${index}`}>
-              {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="todo-card p-4 rounded-lg shadow-md gap-2"
-                >
-                  <TodoCard todoCategory={todoCategory} />
+          {todoCategories?.map((todoCategory, index) => {
+            const bgColor = todoCategory.bgColor;
+            return (
+              <Droppable key={todoCategory.id} droppableId={`${index}`}>
+                {(provided) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    className={`todo-card p-4 rounded-lg shadow-md gap-2 dark:bg-${bgColor}-900 bg-${bgColor}-200`}
+                  >
+                    <TodoCard todoCategory={todoCategory} />
 
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            );
+          })}
           <div
-            className="todo-card text-center justify-center cursor-pointer"
+            className="todo-card text-center justify-center cursor-pointer shadow-md dark:bg-gray-750 bg-gray-350"
             onClick={() =>
               addNewCategory({
                 label: `Category ${appData.categoryCounter + 1}`,
