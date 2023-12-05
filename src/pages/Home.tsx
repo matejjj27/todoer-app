@@ -97,7 +97,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
 
   return (
     <div
-      className={`min-h-screen bg-white dark:bg-gray-850 py-7 p- ${
+      className={`min-h-screen bg-white dark:bg-gray-850 py-6 p- ${
         isSideNavOpened ? "pl-64" : "pl-0"
       } max-sm:pl-0`}
     >

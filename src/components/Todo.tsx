@@ -31,7 +31,7 @@ const Todo = ({ todo, todoCategory }: TodoProps) => {
 
   return (
     <div
-      className="flex justify-between gap-2"
+      className="flex justify-between gap-2 pl-1 "
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
