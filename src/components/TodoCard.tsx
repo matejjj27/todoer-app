@@ -28,8 +28,12 @@ function TodoCard({ todoCategory }: TodoCardProps) {
                   ref={provided.innerRef}
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
-                  className={`mt-1 flex flex-col gap-1 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-650 ${
-                    snapshot.isDragging ? "bg-gray-200 dark:bg-gray-650" : ""
+                  className={`mt-1 flex flex-col gap-1 py-2 rounded-md hover:bg-${
+                    todoCategory.bgColor
+                  }-200 dark:hover:bg-${todoCategory.bgColor}-700 ${
+                    snapshot.isDragging
+                      ? `bg-${todoCategory.bgColor}-200 dark:bg-${todoCategory.bgColor}-700`
+                      : ""
                   }`}
                 >
                   <Todo key={todo.id} todo={todo} todoCategory={todoCategory} />

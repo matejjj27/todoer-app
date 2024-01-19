@@ -30,7 +30,7 @@ const useTodoCategories = () => {
             id: "3",
             label: "fix ids",
             todoDate: new Date(),
-            isCompleted: false
+            isCompleted: true
           }
         ]
       },

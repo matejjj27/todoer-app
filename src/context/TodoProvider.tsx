@@ -6,8 +6,15 @@ import useTodoCategories from "../hooks/useTodoCategories";
 interface Todos {
   appData: IAppData;
   isLoading: boolean;
+  currentCategory: ITodoCategory | undefined;
+  setCurrentCategory: React.Dispatch<
+    React.SetStateAction<ITodoCategory | undefined>
+  >;
   getTodoCategories: () => void;
-  editCategories: (newCategories: ITodoCategory[]) => void;
+  editCategories: (
+    newCategories: ITodoCategory[],
+    selectedCategory?: ITodoCategory | undefined
+  ) => void;
   addNewCategory: (newCategory: ITodoCategory) => void;
   deleteCategory: (category: ITodoCategory) => void;
   editCategory: (category: ITodoCategory) => void;
@@ -33,8 +40,14 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
   const data = useTodoCategories();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [appData, setAppData] = useState<IAppData>(initialValues);
+  const [currentCategory, setCurrentCategory] = useState<
+    ITodoCategory | undefined
+  >();
 
-  const editCategories = (newCategories: ITodoCategory[]) => {
+  const editCategories = (
+    newCategories: ITodoCategory[],
+    selectedCategory?: ITodoCategory
+  ) => {
     localStorage.setItem(
       "appData",
       JSON.stringify({
@@ -48,6 +61,11 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
         categories: newCategories
       };
     });
+
+    if (selectedCategory)
+      setCurrentCategory(
+        newCategories?.find((category) => category?.id === selectedCategory?.id)
+      );
   };
 
   const addNewCategory = (newCategory: ITodoCategory) => {
@@ -172,6 +190,8 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
   const value = {
     appData,
     isLoading,
+    currentCategory,
+    setCurrentCategory,
     getTodoCategories,
     editCategories,
     addNewCategory,

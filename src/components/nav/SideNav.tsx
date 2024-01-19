@@ -1,14 +1,21 @@
 import { useContext } from "react";
-import { ComponentWithSideNav } from "../../utils/types";
+import { ComponentWithSideNav, ITodoCategory } from "../../utils/types";
 import { TodoContext } from "../../context/TodoProvider";
+import { useNavigate } from "react-router-dom";
 
 const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
-  const { appData } = useContext(TodoContext);
+  const { appData, setCurrentCategory } = useContext(TodoContext);
+  const navigate = useNavigate();
 
   const upcomingTodos = appData.categories.reduce((accumulator, category) => {
     return accumulator + category.todos.length;
   }, 0);
   const todaysTodos = 3;
+
+  const handleCategoryOpen = (category: ITodoCategory) => {
+    setCurrentCategory(category);
+    navigate(`/${category?.label.toLowerCase()}`);
+  };
 
   return (
     <div className="bg-gray-350 dark:bg-gray-750">
@@ -149,7 +156,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
                 <span className="flex-1 ms-3 whitespace-nowrap">Calendar</span>
               </a>
             </li>
-            <li>
+            <li onClick={() => navigate("/")}>
               <a className="flex cursor-pointer items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-650 group">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -178,8 +185,11 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
           <ul className="space-y-2 py-2 font-medium border-t border-gray-200 dark:border-gray-700">
             {appData.categories.map((category) => {
               const { id, label, todos, bgColor } = category;
+              const uncompletedTodos = todos.filter(
+                (todo) => !todo.isCompleted
+              );
               return (
-                <li key={id}>
+                <li key={id} onClick={() => handleCategoryOpen(category)}>
                   <a className="flex cursor-pointer items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-650 dark:text-white group">
                     <div
                       className={`flex-shrink-0 w-5 h-5 transition duration-75 rounded-md group-hover:text-gray-900 dark:group-hover:text-white bg-${bgColor}-800`}
@@ -190,7 +200,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
                     <span
                       className={`inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-${bgColor}-800 bg-${bgColor}-100 rounded-full dark:bg-${bgColor}-900 dark:text-${bgColor}-300`}
                     >
-                      {todos.length}
+                      {uncompletedTodos.length}
                     </span>
                   </a>
                 </li>

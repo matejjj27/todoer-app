@@ -15,18 +15,19 @@ interface UIProviderProps {
 }
 
 export const UIContext = createContext<UI>({
-  isDarkMode: false,
+  isDarkMode: true,
   setDarkMode: () => console.warn("setDarkMode not implemented")
 });
 
 const UIProvider = ({ children }: UIProviderProps) => {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
   useEffect(() => {
     const darkMode = localStorage.getItem("darkMode");
-    const isDark = darkMode === "true";
+    const isDark = darkMode === "false";
     document.body.classList.toggle("dark", isDark);
     setIsDarkMode(isDark);
+    localStorage.setItem("darkMode", String(isDark));
   }, []);
 
   const setDarkMode = useCallback(() => {
