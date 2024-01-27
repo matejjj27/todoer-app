@@ -1,68 +1,87 @@
 const useTodoCategories = () => {
   return {
-    todoCounter: 7,
-    categoryCounter: 3,
+    todoCounter: 26,
+    categoryCounter: 17,
     categories: [
       {
         id: "0",
-        label: "General",
+        label: "Finished",
         bgColor: "red",
         todos: [
           {
-            id: "0",
-            label: "add due date to each todo",
-            todoDate: new Date(),
-            isCompleted: false
+            id: "2",
+            label: "make categories editable",
+            todoDate: "2024-01-18T17:14:46.482Z",
+            isCompleted: true
           },
           {
             id: "1",
             label: "fix delete todo button breaking",
-            todoDate: new Date(),
-            isCompleted: true
-          },
-          {
-            id: "2",
-            label: "make categories editable",
-            todoDate: new Date(),
+            todoDate: "2024-01-18T17:14:46.482Z",
             isCompleted: true
           },
           {
             id: "3",
             label: "fix ids",
-            todoDate: new Date(),
+            todoDate: "2024-01-18T17:14:46.482Z",
             isCompleted: true
           }
         ]
       },
       {
         id: "1",
-        label: "Home",
+        label: "To do",
         bgColor: "green",
         todos: [
           {
             id: "4",
-            label: "todo 1",
-            todoDate: new Date(),
+            label: "introduce filters",
+            todoDate: "2024-01-18T17:14:46.482Z",
             isCompleted: false
           },
           {
-            id: "5",
-            label: "todo 2",
-            todoDate: new Date(),
+            id: "18",
+            label: "side menu only filters",
+            isCompleted: false
+          },
+          {
+            id: "0",
+            label: "add due date to each todo",
+            todoDate: "2024-01-18T17:14:46.482Z",
             isCompleted: false
           }
         ]
       },
       {
         id: "2",
-        label: "Work",
+        label: "Backlog",
         bgColor: "blue",
         todos: [
           {
+            id: "20",
+            label: "todo color change ?",
+            isCompleted: false
+          },
+          {
             id: "6",
-            label: "todo 1",
-            todoDate: new Date(),
-            isCompleted: true
+            label: "todo details ?",
+            todoDate: "2024-01-18T17:14:46.482Z",
+            isCompleted: false
+          },
+          {
+            id: "21",
+            label: "reorder categories ?",
+            isCompleted: false
+          },
+          {
+            id: "25",
+            label: "category Icon ?",
+            isCompleted: false
+          },
+          {
+            id: "26",
+            label: "create backend ?",
+            isCompleted: false
           }
         ]
       }

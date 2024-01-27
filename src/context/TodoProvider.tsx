@@ -7,6 +7,7 @@ interface Todos {
   appData: IAppData;
   isLoading: boolean;
   currentCategory: ITodoCategory | undefined;
+  findCategoryById: (id: string) => ITodoCategory | undefined;
   setCurrentCategory: React.Dispatch<
     React.SetStateAction<ITodoCategory | undefined>
   >;
@@ -43,6 +44,10 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
   const [currentCategory, setCurrentCategory] = useState<
     ITodoCategory | undefined
   >();
+
+  const findCategoryById = (id: string) => {
+    return appData.categories.find((category) => category.id === id);
+  };
 
   const editCategories = (
     newCategories: ITodoCategory[],
@@ -191,6 +196,7 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
     appData,
     isLoading,
     currentCategory,
+    findCategoryById,
     setCurrentCategory,
     getTodoCategories,
     editCategories,

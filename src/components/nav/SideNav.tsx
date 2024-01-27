@@ -4,7 +4,7 @@ import { TodoContext } from "../../context/TodoProvider";
 import { useNavigate } from "react-router-dom";
 
 const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
-  const { appData, setCurrentCategory } = useContext(TodoContext);
+  const { appData } = useContext(TodoContext);
   const navigate = useNavigate();
 
   const upcomingTodos = appData.categories.reduce((accumulator, category) => {
@@ -13,8 +13,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
   const todaysTodos = 3;
 
   const handleCategoryOpen = (category: ITodoCategory) => {
-    setCurrentCategory(category);
-    navigate(`/${category?.label.toLowerCase()}`);
+    navigate(`/categories/${category?.id.toLowerCase()}`);
   };
 
   return (
@@ -87,6 +86,28 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
             TODOS
           </p>
           <ul className="space-y-2 py-2 font-medium border-t border-gray-200 dark:border-gray-700">
+            <li onClick={() => navigate("/")}>
+              <a className="flex cursor-pointer items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-650 group">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.3}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"
+                  />
+                </svg>
+
+                <span className="flex-1 ms-3 whitespace-nowrap">
+                  Sticky Wall
+                </span>
+              </a>
+            </li>
             <li>
               <a className="flex cursor-pointer items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-650 group">
                 <svg
@@ -154,28 +175,6 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
                 </svg>
 
                 <span className="flex-1 ms-3 whitespace-nowrap">Calendar</span>
-              </a>
-            </li>
-            <li onClick={() => navigate("/")}>
-              <a className="flex cursor-pointer items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-650 group">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.3}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"
-                  />
-                </svg>
-
-                <span className="flex-1 ms-3 whitespace-nowrap">
-                  Sticky Wall
-                </span>
               </a>
             </li>
           </ul>

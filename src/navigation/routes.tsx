@@ -11,7 +11,7 @@ const routes = [
     element: <Home />
   },
   {
-    path: ":categoryName",
+    path: "/categories/:categoryId",
     element: <Category />
   }
 ];
