@@ -1,15 +1,15 @@
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
-import { ITodo, ITodoCategory } from "../utils/types";
+import { ITodo, ICategory, ISubCategory } from "../utils/types";
 
 const useDragAndDrop = () => {
   const onDragEnd = (
     result: DropResult,
-    todoCategories: ITodoCategory[],
+    categories: ISubCategory[],
     editCategories: (
-      newCategories: ITodoCategory[],
-      selectedCategory?: ITodoCategory
+      newCategories: ISubCategory[],
+      selectedCategory?: ICategory
     ) => void,
-    selectedCategory?: ITodoCategory
+    selectedCategory?: ICategory
   ) => {
     const { source, destination } = result;
 
@@ -24,14 +24,14 @@ const useDragAndDrop = () => {
     if (sourceIndex === destinationIndex) {
       // Reorder todos within the same category
       const updatedTodos = reorderTodos(
-        todoCategories[sourceIndex]?.todos,
+        categories[sourceIndex]?.todos,
         source.index,
         destination.index
       );
 
-      const newCategories = [...todoCategories];
+      const newCategories = [...categories];
       newCategories[sourceIndex] = {
-        ...todoCategories[sourceIndex],
+        ...categories[sourceIndex],
         todos: updatedTodos
       };
 
@@ -39,19 +39,19 @@ const useDragAndDrop = () => {
     } else {
       // Move todo to another category
       const result = move(
-        todoCategories[sourceIndex]?.todos,
-        todoCategories[destinationIndex]?.todos,
+        categories[sourceIndex]?.todos,
+        categories[destinationIndex]?.todos,
         source,
         destination
       );
 
-      const newCategories = [...todoCategories];
+      const newCategories = [...categories];
       newCategories[sourceIndex] = {
-        ...todoCategories[sourceIndex],
+        ...categories[sourceIndex],
         todos: result[source.droppableId]
       };
       newCategories[destinationIndex] = {
-        ...todoCategories[destinationIndex],
+        ...categories[destinationIndex],
         todos: result[destination.droppableId]
       };
 

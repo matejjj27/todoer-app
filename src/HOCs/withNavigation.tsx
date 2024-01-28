@@ -6,20 +6,28 @@ const withNavigation = <P extends object>(
   WrappedComponent: React.ComponentType<P>
 ) => {
   const WithNavigation: React.FC<P> = (props) => {
-    const [isSideNavOpened, setIsSideNavOpened] = useState(true);
+    const storedIsSideNavOpened = localStorage.getItem("isSideNavOpened");
+    const [isSideNavOpened, setIsSideNavOpened] = useState(
+      JSON.parse(storedIsSideNavOpened || "true")
+    );
+
+    const toggleSideNav = () => {
+      localStorage.setItem("isSideNavOpened", JSON.stringify(!isSideNavOpened));
+      setIsSideNavOpened(!isSideNavOpened);
+    };
 
     return (
       <>
         <SideNav
           isSideNavOpened={isSideNavOpened}
-          toggleSideNav={() => setIsSideNavOpened((prev) => !prev)}
+          toggleSideNav={toggleSideNav}
         />
         <UIModeSwitch />
 
         <WrappedComponent
           {...props}
           isSideNavOpened={isSideNavOpened}
-          toggleSideNav={() => setIsSideNavOpened((prev) => !prev)}
+          toggleSideNav={toggleSideNav}
         />
       </>
     );

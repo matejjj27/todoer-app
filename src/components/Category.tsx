@@ -1,26 +1,38 @@
 import { useContext, useState } from "react";
-import { ITodoCategory } from "../utils/types";
+import { ISubCategory } from "../utils/types";
 import { TodoContext } from "../context/TodoProvider";
 import { UIContext } from "../context/UIProvider";
+import ConfirmationModal from "./ConfirmationModal";
 
 interface CategoryProps {
-  todoCategory: ITodoCategory;
+  todoSubCategory: ISubCategory;
 }
 
-const Category = ({ todoCategory }: CategoryProps) => {
-  const { label } = todoCategory;
+const Category = ({ todoSubCategory }: CategoryProps) => {
+  const { name } = todoSubCategory;
   useContext(UIContext);
-  const { deleteCategory, editCategory } = useContext(TodoContext);
+  const { deleteSubCategory, editSubCategory } = useContext(TodoContext);
   const [isEditing, setIsEditing] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [editedLabel, setEditedLabel] = useState(label);
+  const [editedLabel, setEditedLabel] = useState(name);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const handleEditCategory = () => {
-    editCategory({
-      ...todoCategory,
-      label: editedLabel
-    });
+  const handleEditSubCategory = () => {
+    if (editedLabel.trim() === "" && todoSubCategory.todos.length === 0) {
+      deleteSubCategory(todoSubCategory?.id || "");
+    } else {
+      editSubCategory({
+        ...todoSubCategory,
+        name: editedLabel
+      });
+    }
     setIsEditing(false);
+  };
+
+  const confirmDelete = () => {
+    deleteSubCategory(todoSubCategory?.id || "");
+    setIsEditing(false);
+    setIsDeleteModalOpen(false);
   };
 
   return (
@@ -31,13 +43,14 @@ const Category = ({ todoCategory }: CategoryProps) => {
     >
       <input
         name="category-label"
+        placeholder="Enter name..."
         onFocus={() => setIsEditing(true)}
         className={`${
           isEditing ? "" : "cursor-pointer"
-        } flex-grow text-2xl font-bold bg-transparent text-gray-900 dark:text-white overflow-hidden whitespace-nowrap max-w-full border-none outline-none`}
+        } flex-grow text-2xl bg-transparent text-gray-900 dark:text-white overflow-hidden whitespace-nowrap max-w-full border-none outline-none`}
         value={editedLabel}
         onChange={(e) => setEditedLabel(e.target.value)}
-        onBlur={handleEditCategory}
+        onBlur={handleEditSubCategory}
       />
       <div className="cursor-pointer self-center text-gray-900 dark:text-white">
         {isHovered && (
@@ -48,7 +61,7 @@ const Category = ({ todoCategory }: CategoryProps) => {
             strokeWidth={1.5}
             stroke="currentColor"
             className="w-6 h-6"
-            onClick={() => deleteCategory(todoCategory)}
+            onClick={() => setIsDeleteModalOpen(true)}
           >
             <path
               strokeLinecap="round"
@@ -58,6 +71,13 @@ const Category = ({ todoCategory }: CategoryProps) => {
           </svg>
         )}
       </div>
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onRequestClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={confirmDelete}
+        title="Confirm Deletion"
+        message={`Are you sure you want to delete this subcategory (${todoSubCategory.name})?`}
+      />
     </div>
   );
 };

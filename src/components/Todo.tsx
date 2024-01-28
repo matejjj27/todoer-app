@@ -1,30 +1,28 @@
 import { useContext, useState } from "react";
-import { ITodo, ITodoCategory } from "../utils/types";
+import { ITodo, ISubCategory } from "../utils/types";
 import { TodoContext } from "../context/TodoProvider";
 
 interface TodoProps {
-  todoCategory: ITodoCategory;
+  todoSubCategory: ISubCategory;
   todo: ITodo;
 }
 
-const Todo = ({ todo, todoCategory }: TodoProps) => {
-  const { label, isCompleted } = todo;
-  const { completeTodo, editTodo, deleteTodo } = useContext(TodoContext);
+const Todo = ({ todo, todoSubCategory }: TodoProps) => {
+  const { name, isCompleted } = todo;
+  const { editTodo, deleteTodo } = useContext(TodoContext);
   const [isEditing, setIsEditing] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [editedLabel, setEditedLabel] = useState(label);
+  const [editedLabel, setEditedLabel] = useState(name);
 
   const handleEditTodo = () => {
-    if (editedLabel === "") {
-      deleteTodo(todo, todoCategory);
+    if (editedLabel.trim() === "") {
+      deleteTodo(todo?.id || "");
     } else {
-      editTodo(
-        {
-          ...todo,
-          label: editedLabel
-        },
-        todoCategory
-      );
+      editTodo({
+        ...todo,
+        name: editedLabel,
+        subCategory: todoSubCategory
+      });
       setIsEditing(false);
     }
   };
@@ -42,17 +40,20 @@ const Todo = ({ todo, todoCategory }: TodoProps) => {
             className="w-3 h-3"
             type="checkbox"
             checked={isCompleted}
-            onChange={() => completeTodo(todo, todoCategory)}
+            onChange={() =>
+              editTodo({ ...todo, isCompleted: !todo.isCompleted })
+            }
           />
         </div>
         <div className="text-gray-900 dark:text-white max-w-full">
           <input
             name="todo-label"
+            placeholder="todo..."
             onFocus={() => setIsEditing(true)}
             className={`${isEditing ? "" : "cursor-pointer"} ${
               !isCompleted
                 ? ""
-                : "text-gray-500 dark:text-gray-600 line-through"
+                : "text-gray-500 dark:text-gray-600 line-through "
             } bg-transparent text-sm overflow-hidden outline-none`}
             value={editedLabel}
             onChange={(e) => setEditedLabel(e.target.value)}
@@ -69,7 +70,7 @@ const Todo = ({ todo, todoCategory }: TodoProps) => {
             strokeWidth={1.5}
             stroke="currentColor"
             className="w-5 h-5"
-            onClick={() => deleteTodo(todo, todoCategory)}
+            onClick={() => deleteTodo(todo?.id || "")}
           >
             <path
               strokeLinecap="round"

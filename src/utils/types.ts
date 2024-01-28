@@ -1,20 +1,23 @@
 export interface ITodo {
-  id: string;
-  label: string;
-  isCompleted: boolean;
+  id?: string;
+  name: string;
+  isCompleted?: boolean;
+  dueDate?: Date;
+  subCategory: ISubCategory;
 }
 
-export interface ITodoCategory {
-  id: string;
-  label: string;
-  bgColor: string;
+export interface ICategory {
+  id?: string;
+  name: string;
+  color?: string;
+  subCategories: ISubCategory[];
+}
+export interface ISubCategory {
+  id?: string;
+  name: string;
+  color?: string;
   todos: ITodo[];
-}
-
-export interface IAppData {
-  categoryCounter: number;
-  todoCounter: number;
-  categories: ITodoCategory[];
+  category: ICategory;
 }
 
 export interface ComponentWithSideNav {

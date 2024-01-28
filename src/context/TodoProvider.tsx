@@ -1,211 +1,127 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { IAppData, ITodo, ITodoCategory } from "../utils/types";
-import useTodoCategories from "../hooks/useTodoCategories";
+import { ITodo, ICategory, ISubCategory } from "../utils/types";
+import useApi from "../hooks/useApi";
 
 interface Todos {
-  appData: IAppData;
-  isLoading: boolean;
-  currentCategory: ITodoCategory | undefined;
-  findCategoryById: (id: string) => ITodoCategory | undefined;
-  setCurrentCategory: React.Dispatch<
-    React.SetStateAction<ITodoCategory | undefined>
-  >;
-  getTodoCategories: () => void;
-  editCategories: (
-    newCategories: ITodoCategory[],
-    selectedCategory?: ITodoCategory | undefined
-  ) => void;
-  addNewCategory: (newCategory: ITodoCategory) => void;
-  deleteCategory: (category: ITodoCategory) => void;
-  editCategory: (category: ITodoCategory) => void;
-  addNewTodo: (category: ITodoCategory) => void;
-  completeTodo: (todo: ITodo, category: ITodoCategory) => void;
-  editTodo: (todo: ITodo, category: ITodoCategory) => void;
-  deleteTodo: (todo: ITodo, category: ITodoCategory) => void;
+  categories: ICategory[];
+  currentCategory: ICategory | undefined;
+  findCategoryById: (id: string) => Promise<void>;
+  getCategories: () => Promise<ICategory>;
+  addNewCategory: (newCategory: ICategory) => void;
+  addNewSubCategory: (newSubCategory: ISubCategory) => void;
+  addNewTodo: (newTodo: ITodo) => void;
+  editCategory: (newCategory: ICategory) => void;
+  editSubCategory: (newSubcategory: ISubCategory) => void;
+  editTodo: (newTodo: ITodo) => void;
+  deleteCategory: (categoryId: string) => void;
+  deleteSubCategory: (subCategoryId: string) => void;
+  deleteTodo: (todoId: string) => void;
 }
 
 interface TodoProviderProps {
   children: ReactNode;
 }
 
-const initialValues = {
-  categoryCounter: 0,
-  todoCounter: 0,
-  categories: []
-};
-
 export const TodoContext = createContext<Todos>({} as Todos);
 
 const TodoProvider = ({ children }: TodoProviderProps) => {
-  const data = useTodoCategories();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [appData, setAppData] = useState<IAppData>(initialValues);
-  const [currentCategory, setCurrentCategory] = useState<
-    ITodoCategory | undefined
-  >();
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [currentCategory, setCurrentCategory] = useState<ICategory>();
 
-  const findCategoryById = (id: string) => {
-    return appData.categories.find((category) => category.id === id);
-  };
-
-  const editCategories = (
-    newCategories: ITodoCategory[],
-    selectedCategory?: ITodoCategory
-  ) => {
-    localStorage.setItem(
-      "appData",
-      JSON.stringify({
-        ...appData,
-        categories: newCategories
-      })
-    );
-    setAppData((prev) => {
-      return {
-        ...prev,
-        categories: newCategories
-      };
-    });
-
-    if (selectedCategory)
-      setCurrentCategory(
-        newCategories?.find((category) => category?.id === selectedCategory?.id)
-      );
-  };
-
-  const addNewCategory = (newCategory: ITodoCategory) => {
-    localStorage.setItem(
-      "appData",
-      JSON.stringify({
-        ...appData,
-        categoryCounter: appData.categoryCounter + 1,
-        categories: [...appData.categories, newCategory]
-      })
-    );
-    setAppData((prev) => {
-      return {
-        ...prev,
-        categoryCounter: prev.categoryCounter + 1,
-        categories: [...prev.categories, newCategory]
-      };
-    });
-  };
-
-  const deleteCategory = (category: ITodoCategory) => {
-    const newCategories = appData?.categories?.filter(
-      (cat) => category.id !== cat.id
-    );
-    localStorage.setItem(
-      "appData",
-      JSON.stringify({ ...appData, categories: newCategories })
-    );
-    setAppData((prev) => {
-      return { ...prev, categories: newCategories };
-    });
-  };
-
-  const editCategory = (category: ITodoCategory) => {
-    const newCategories = appData.categories.map((cat) => {
-      if (category.id === cat.id) return category;
-      return cat;
-    });
-    localStorage.setItem(
-      "appData",
-      JSON.stringify({ ...appData, categories: newCategories })
-    );
-    setAppData((prev) => {
-      return { ...prev, categories: newCategories };
-    });
-  };
-
-  const addNewTodo = (todoCategory: ITodoCategory) => {
-    const newTodo: ITodo = {
-      id: `${appData.todoCounter + 1}`,
-      label: `todo ${appData.todoCounter + 1}`,
-      isCompleted: false
-    };
-    const updatedCategory = {
-      ...todoCategory,
-      todos: [...todoCategory.todos, newTodo]
-    };
-    const newCategories = appData.categories.map((item) => {
-      if (item.id === todoCategory.id) return updatedCategory;
-      return item;
-    });
-
-    localStorage.setItem(
-      "appData",
-      JSON.stringify({
-        ...appData,
-        todoCounter: appData.todoCounter + 1,
-        categories: newCategories
-      })
-    );
-    setAppData((prev) => {
-      return {
-        ...prev,
-        todoCounter: prev.todoCounter + 1,
-        categories: newCategories
-      };
-    });
-  };
-
-  const completeTodo = (todo: ITodo, todoCategory: ITodoCategory) => {
-    const newTodos = todoCategory.todos.map((item) => {
-      if (todo.id === item.id)
-        return { ...todo, isCompleted: !item.isCompleted };
-      return item;
-    });
-    editCategory({ ...todoCategory, todos: newTodos });
-  };
-
-  const editTodo = (todo: ITodo, todoCategory: ITodoCategory) => {
-    const newTodos = todoCategory.todos.map((item) => {
-      if (todo.id === item.id) return todo;
-      return item;
-    });
-    editCategory({ ...todoCategory, todos: newTodos });
-  };
-
-  const deleteTodo = (todo: ITodo, todoCategory: ITodoCategory) => {
-    const newTodos = todoCategory.todos.filter((item) => {
-      if (todo.id !== item.id) return item;
-    });
-    editCategory({ ...todoCategory, todos: newTodos });
-  };
-
-  const getTodoCategories = async () => {
-    setIsLoading(true);
-
-    const todoFromStorage = localStorage.getItem("appData");
-    if (todoFromStorage) {
-      const newTodos = await JSON.parse(todoFromStorage);
-      setAppData(newTodos);
-    } else {
-      setAppData(data);
-    }
-
-    setIsLoading(false);
-  };
+  const { get, post, patch, del } = useApi();
 
   useEffect(() => {
-    getTodoCategories();
+    getCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const getCategories = async () => {
+    return await get("/categories").then((res) => {
+      setCategories(res.data);
+      return res.data;
+    });
+  };
+
+  const findCategoryById = async (id: string) => {
+    const categories = await getCategories();
+    categories.map((category: ICategory) => {
+      if (category.id === id) {
+        setCurrentCategory(category);
+      }
+    });
+  };
+
+  const addNewCategory = (newCategory: ICategory) => {
+    post("/categories", newCategory).then(() => {
+      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+    });
+  };
+
+  const addNewSubCategory = (newSubCategory: ISubCategory) => {
+    post("/sub-categories", newSubCategory).then(() => {
+      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+    });
+  };
+
+  const addNewTodo = (newTodo: ITodo) => {
+    post("/todos", newTodo).then(() => {
+      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+    });
+  };
+
+  const editCategory = (newCategory: ICategory) => {
+    patch(`/categories/${newCategory.id}`, newCategory).then(() => {
+      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+    });
+  };
+
+  const editSubCategory = (newSubCategory: ISubCategory) => {
+    patch(`/sub-categories/${newSubCategory.id}`, newSubCategory);
+  };
+
+  const editTodo = (newTodo: ITodo) => {
+    patch(`/todos/${newTodo.id}`, newTodo).then(() => {
+      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+    });
+  };
+
+  const deleteCategory = (categoryId: string) => {
+    del(`/categories/${categoryId}`).then(() => {
+      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+    });
+  };
+
+  const deleteSubCategory = (subCategoryId: string) => {
+    del(`/sub-categories/${subCategoryId}`).then(() => {
+      if (currentCategory)
+        setCurrentCategory({
+          ...currentCategory,
+          subCategories: currentCategory.subCategories.filter(
+            (subCategory) => subCategory.id !== subCategoryId
+          )
+        });
+    });
+  };
+
+  const deleteTodo = (todoId: string) => {
+    del(`/todos/${todoId}`).then(() => {
+      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+    });
+  };
+
   const value = {
-    appData,
-    isLoading,
+    categories,
     currentCategory,
     findCategoryById,
-    setCurrentCategory,
-    getTodoCategories,
-    editCategories,
+    getCategories,
     addNewCategory,
-    deleteCategory,
-    editCategory,
+    addNewSubCategory,
     addNewTodo,
-    completeTodo,
+    editCategory,
+    editSubCategory,
     editTodo,
+    deleteCategory,
+    deleteSubCategory,
     deleteTodo
   };
 
