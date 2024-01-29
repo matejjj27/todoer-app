@@ -48,12 +48,12 @@ const Todo = ({ todo, todoSubCategory }: TodoProps) => {
         <div className="text-gray-900 dark:text-white max-w-full">
           <input
             name="todo-label"
-            placeholder="todo..."
+            placeholder="Todo..."
             onFocus={() => setIsEditing(true)}
             className={`${isEditing ? "" : "cursor-pointer"} ${
               !isCompleted
                 ? ""
-                : "text-gray-500 dark:text-gray-600 line-through "
+                : "text-gray-500 dark:text-gray-600 line-through"
             } bg-transparent text-sm overflow-hidden outline-none`}
             value={editedLabel}
             onChange={(e) => setEditedLabel(e.target.value)}

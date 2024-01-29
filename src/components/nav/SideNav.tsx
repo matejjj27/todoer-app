@@ -248,7 +248,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
             </p>
             {!isEditClicked ? (
               <div
-                className="cursor-pointer self-end pb-0 mr-3"
+                className="cursor-pointer self-end pb-0 mr-2"
                 onClick={() => setIsEditClicked(true)}
               >
                 <svg
@@ -268,7 +268,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
               </div>
             ) : (
               <div
-                className="cursor-pointer self-end mr-3"
+                className="cursor-pointer self-end mr-2"
                 onClick={() => setIsEditClicked(false)}
               >
                 <svg

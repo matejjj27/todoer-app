@@ -10,6 +10,11 @@ interface Todos {
   addNewCategory: (newCategory: ICategory) => void;
   addNewSubCategory: (newSubCategory: ISubCategory) => void;
   addNewTodo: (newTodo: ITodo) => void;
+  moveTodo: (
+    newCategory: ICategory,
+    movedTodoID: string,
+    destinationSubCategoryId: string
+  ) => void;
   editCategory: (newCategory: ICategory) => void;
   editSubCategory: (newSubcategory: ISubCategory) => void;
   editTodo: (newTodo: ITodo) => void;
@@ -53,7 +58,7 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
 
   const addNewCategory = (newCategory: ICategory) => {
     post("/categories", newCategory).then(() => {
-      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+      getCategories();
     });
   };
 
@@ -65,6 +70,20 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
 
   const addNewTodo = (newTodo: ITodo) => {
     post("/todos", newTodo).then(() => {
+      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+    });
+  };
+
+  const moveTodo = (
+    newCategory: ICategory,
+    movedTodoID: string,
+    destinationSubCategoryId: string
+  ) => {
+    patch(`/categories/moveTodo/${newCategory.id}`, {
+      ...newCategory,
+      destinationSubCategoryId,
+      todoId: movedTodoID
+    }).then(() => {
       if (currentCategory?.id) findCategoryById(currentCategory?.id);
     });
   };
@@ -117,6 +136,7 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
     addNewCategory,
     addNewSubCategory,
     addNewTodo,
+    moveTodo,
     editCategory,
     editSubCategory,
     editTodo,

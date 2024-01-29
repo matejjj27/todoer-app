@@ -1,17 +1,19 @@
 import { DraggableLocation, DropResult } from "react-beautiful-dnd";
-import { ITodo, ICategory, ISubCategory } from "../utils/types";
+import { ITodo, ICategory } from "../utils/types";
 
 const useDragAndDrop = () => {
   const onDragEnd = (
     result: DropResult,
-    categories: ISubCategory[],
-    editCategories: (
-      newCategories: ISubCategory[],
-      selectedCategory?: ICategory
+    editCategory: (newCategory: ICategory) => void,
+    moveTodo: (
+      newCategory: ICategory,
+      movedTodoID: string,
+      destinationSubCategoryId: string
     ) => void,
-    selectedCategory?: ICategory
+    currentCategory?: ICategory
   ) => {
-    const { source, destination } = result;
+    const { source, destination, draggableId } = result;
+    const subCategories = currentCategory?.subCategories || [];
 
     // dropped outside the list
     if (!destination) {
@@ -24,41 +26,47 @@ const useDragAndDrop = () => {
     if (sourceIndex === destinationIndex) {
       // Reorder todos within the same category
       const updatedTodos = reorderTodos(
-        categories[sourceIndex]?.todos,
+        subCategories[sourceIndex]?.todos,
         source.index,
         destination.index
       );
 
-      const newCategories = [...categories];
-      newCategories[sourceIndex] = {
-        ...categories[sourceIndex],
+      const newSubCategories = [...subCategories];
+      newSubCategories[sourceIndex] = {
+        ...subCategories[sourceIndex],
         todos: updatedTodos
       };
 
-      editCategories(newCategories, selectedCategory);
+      if (currentCategory)
+        editCategory({ ...currentCategory, subCategories: newSubCategories });
     } else {
       // Move todo to another category
       const result = move(
-        categories[sourceIndex]?.todos,
-        categories[destinationIndex]?.todos,
+        subCategories[sourceIndex]?.todos,
+        subCategories[destinationIndex]?.todos,
         source,
         destination
       );
 
-      const newCategories = [...categories];
-      newCategories[sourceIndex] = {
-        ...categories[sourceIndex],
+      const newSubCategories = [...subCategories];
+      newSubCategories[sourceIndex] = {
+        ...subCategories[sourceIndex],
         todos: result[source.droppableId]
       };
-      newCategories[destinationIndex] = {
-        ...categories[destinationIndex],
+      newSubCategories[destinationIndex] = {
+        ...subCategories[destinationIndex],
         todos: result[destination.droppableId]
       };
 
-      editCategories(
-        newCategories.filter((item) => item.todos.length),
-        selectedCategory
-      );
+      if (currentCategory)
+        moveTodo(
+          {
+            ...currentCategory,
+            subCategories: newSubCategories
+          },
+          draggableId,
+          subCategories[destinationIndex]?.id || ""
+        );
     }
   };
 
@@ -69,14 +77,22 @@ const useDragAndDrop = () => {
     droppableDestination: DraggableLocation
   ) => {
     const sourceClone = Array.from(source || []);
-    const destClone = Array.from(destination || []);
+    const destinationClone = Array.from(destination || []);
 
     const [removed] = sourceClone.splice(droppableSource.index, 1);
-    destClone.splice(droppableDestination.index, 0, removed);
+    destinationClone.splice(droppableDestination.index, 0, {
+      ...removed,
+      position: droppableDestination.index
+    });
+
+    const updatedDestinationClone = destinationClone.map((todo, index) => ({
+      ...todo,
+      position: index
+    }));
 
     return {
       [droppableSource.droppableId]: sourceClone,
-      [droppableDestination.droppableId]: destClone
+      [droppableDestination.droppableId]: updatedDestinationClone
     };
   };
 
@@ -85,10 +101,21 @@ const useDragAndDrop = () => {
     startIndex: number,
     endIndex: number
   ) => {
-    const updatedTodos = [...list];
-    const [removed] = updatedTodos.splice(startIndex, 1);
+    if (!list) {
+      return [];
+    }
+    const updatedTodos = list;
+    const [removed] = list.splice(startIndex, 1);
     updatedTodos.splice(endIndex, 0, removed);
-    return updatedTodos;
+
+    const todosWithUpdatedPosition = updatedTodos.map((todo, index) => {
+      return {
+        ...todo,
+        position: index
+      };
+    });
+
+    return todosWithUpdatedPosition;
   };
 
   return { onDragEnd, move, reorderTodos };
