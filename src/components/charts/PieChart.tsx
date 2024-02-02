@@ -20,7 +20,7 @@ interface PieChartProps {
 
 function PieChart({ chartData, height, isBig }: PieChartProps) {
   const options: ChartOptions<"pie"> = {
-    cutout: isBig ? "55%" : "0%",
+    cutout: isBig ? "50%" : "0%",
     plugins: {
       legend: {
         display: false
@@ -35,7 +35,9 @@ function PieChart({ chartData, height, isBig }: PieChartProps) {
         <div
           className={`rounded-xl flex self-center bg-${backgroundColor}-800 w-2 h-2 mr-1 dark:text-white`}
         />
-        <span className=" text-gray-900 dark:text-gray-50 text-xs">{label}</span>
+        <span className=" text-gray-900 dark:text-gray-50 text-xs">
+          {label}
+        </span>
       </div>
     );
   });
@@ -55,12 +57,20 @@ function PieChart({ chartData, height, isBig }: PieChartProps) {
     return (
       <>
         <div className="flex flex-col justify-center">{legendItems}</div>
-        {percentages.map((percentage) => {
+        {percentages.map((percentage, index) => {
           return (
-            <div className="flex flex-col justify-center items-center">
-              {percentage.map((percent) => {
+            <div
+              key={index}
+              className="flex flex-col justify-center items-center"
+            >
+              {percentage.map((percent, index) => {
                 return (
-                  <span className="text-gray-600 dark:text-gray-500 text-xs">{percent}%</span>
+                  <span
+                    key={index}
+                    className="text-gray-600 dark:text-gray-500 text-xs"
+                  >
+                    {percent === "NaN" ? 0 : percent}%
+                  </span>
                 );
               })}
             </div>
@@ -71,15 +81,19 @@ function PieChart({ chartData, height, isBig }: PieChartProps) {
   };
 
   return (
-    <div className={`flex gap-3 ${isBig ? "justify-center py-2" : ""} w-52`}>
-      <div className={`h-${height}`}>
+    <div
+      className={`flex gap-4 ${
+        isBig ? "justify-center items-center py-2" : ""
+      } w-52`}
+    >
+      <div className={`h-${height} w-${height}`}>
         <Pie data={chartData} options={options} />
       </div>
       {isBig && renderPercentages()}
 
       {!isBig && (
         <div className="flex flex-col justify-center text-gray-600 dark:text-gray-500 text-xs">
-          {percentages[0][0]}%
+          {percentages[0][0] === "NaN" ? 0 : percentages[0][0]}%
         </div>
       )}
     </div>

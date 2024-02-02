@@ -99,7 +99,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
       <div className="flex gap-10 ml-1 my-10 justify-center">
         <div className="flex flex-col gap-3">
           {categories.map((category) => {
-            return <CatBubble category={category} />;
+            return <CatBubble key={category.id} category={category} />;
           })}
 
           {isNewCategoryClicked ? (
@@ -130,11 +130,11 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
         <div className="flex flex-col gap-4">
           <div className="flex  flex-wrap gap-4 w-60">
             {categories.map((category) => {
-              return <CatInfoSquare category={category} />;
+              return <CatInfoSquare key={category.id} category={category} />;
             })}
           </div>
           <div className="rounded-xl bg-gray-200 dark:bg-gray-750 p-2 w-60">
-            <PieChart chartData={chartData} height={14} isBig />
+            <PieChart chartData={chartData} height={24} isBig />
           </div>
         </div>
       </div>

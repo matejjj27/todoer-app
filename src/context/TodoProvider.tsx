@@ -91,6 +91,7 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
   const editCategory = (newCategory: ICategory) => {
     patch(`/categories/${newCategory.id}`, newCategory).then(() => {
       if (currentCategory?.id) findCategoryById(currentCategory?.id);
+      else getCategories();
     });
   };
 
