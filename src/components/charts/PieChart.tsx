@@ -56,13 +56,8 @@ function PieChart({ chartData, height, isBig }: PieChartProps) {
       <>
         <div className="flex flex-col justify-center">{legendItems}</div>
         {percentages.map((percentage) => {
-          percentage.map((percent, index) => {
-            <span key={index} className="text-gray-500 text-xs">
-              {percent}%
-            </span>;
-          });
           return (
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col justify-center items-center">
               {percentage.map((percent) => {
                 return (
                   <span className="text-gray-500 text-xs">{percent}%</span>
