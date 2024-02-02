@@ -17,7 +17,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
   const { categories, addNewCategory } = useContext(TodoContext);
 
   const [chartData, setChartData] = useState({
-    labels: [],
+    labels: categories?.map((data) => data?.name) || "",
     datasets: [
       {
         label: "Todos",
@@ -26,7 +26,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
           data.subCategories.map((sub) => (sum += sub.todos.length));
           return sum;
         }),
-        backgroundColor: categories.map((data) => data.color),
+        backgroundColor: categories.map((data) => data.color || ""),
         borderColor: "white",
         borderWidth: 1
       }
@@ -35,7 +35,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
 
   useEffect(() => {
     setChartData({
-      labels: categories?.map((data) => data.name),
+      labels: categories?.map((data) => data?.name || ""),
       datasets: [
         {
           label: "Todos",
@@ -44,7 +44,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
             data.subCategories.map((sub) => (sum += sub.todos.length));
             return sum;
           }),
-          backgroundColor: categories.map((category) => category.color),
+          backgroundColor: categories.map((category) => category?.color || ""),
           borderColor: "black",
           borderWidth: 1
         }
