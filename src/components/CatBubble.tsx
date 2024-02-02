@@ -5,8 +5,11 @@ interface CatBubbleProps {
 }
 
 const CatBubble = ({ category }: CatBubbleProps) => {
-  const { name, color } = category;
-  const todos = 1;
+  const { name, color, subCategories } = category;
+
+  const totalTodos = subCategories.reduce((acc, subCategory) => {
+    return acc + subCategory.todos.length;
+  }, 0);
 
   return (
     <div className="rounded-xl justify-between flex bg-gray-200 dark:bg-gray-750 p-2 w-56">
@@ -17,7 +20,7 @@ const CatBubble = ({ category }: CatBubbleProps) => {
         <div className=" flex-col gap-5">
           <h1 className="text-gray-950 dark:text-white">{name}</h1>
           <h3 className="text-gray-600 dark:text-gray-500 text-xs">
-            {todos} todos
+            {totalTodos} todos
           </h3>
         </div>
       </div>
