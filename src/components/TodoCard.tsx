@@ -60,12 +60,11 @@ function TodoCard({ todoSubCategory }: TodoCardProps) {
                 <div
                   ref={provided.innerRef}
                   {...provided.draggableProps}
-                  {...provided.dragHandleProps}
-                  className={`mt-1 flex flex-col gap-1 py-2 rounded-md hover:bg-${
+                  className={`mt-1 flex flex-col gap-1 py-1.5 rounded-md hover:bg-${
                     todoSubCategory.color
                   }-200 dark:hover:bg-${todoSubCategory.color}-700 ${
                     snapshot.isDragging
-                      ? `bg-${todoSubCategory.color}-200 dark:bg-${todoSubCategory.color}-700`
+                      ? `bg-${todoSubCategory.color}-300 dark:bg-${todoSubCategory.color}-800`
                       : ""
                   }`}
                 >
@@ -73,6 +72,7 @@ function TodoCard({ todoSubCategory }: TodoCardProps) {
                     key={todo.id}
                     todo={todo}
                     todoSubCategory={todoSubCategory}
+                    provided={provided}
                   />
                 </div>
               )}

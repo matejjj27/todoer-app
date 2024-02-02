@@ -99,7 +99,7 @@ const Category = ({ isSideNavOpened }: ComponentWithSideNav) => {
         placeholder="Category..."
         className={`text-3xl pl-3 ${!isSideNavOpened ? "ml-16" : ""} ${
           isEditing ? "" : "cursor-pointer"
-        } mt-1 bg-transparent text-gray-900 dark:text-white overflow-hidden whitespace-nowrap border-none outline-none`}
+        } bg-transparent text-gray-900 dark:text-white overflow-hidden whitespace-nowrap border-none outline-none`}
         value={newCategoryName}
         onChange={(e) => setNewCategoryName(e.target.value)}
         onBlur={handleEditCategory}
