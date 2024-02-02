@@ -58,7 +58,9 @@ const CatInfoSquare = ({ category }: CatInfoSquareProps) => {
         <PieChart chartData={chartData} height={6} />
       </div>
 
-      <h1 className="text-gray-500 text-xs">{category?.name}</h1>
+      <h1 className="text-gray-900 dark:text-gray-100 text-sm">
+        {category?.name}
+      </h1>
       {/* <p className="text-gray-900 dark:text-white text-sm">
         {category.subCategories[0].name}
       </p> */}

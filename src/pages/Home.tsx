@@ -27,7 +27,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
           return sum;
         }),
         backgroundColor: categories.map((data) => data.color || ""),
-        borderColor: "white",
+        borderColor: "black",
         borderWidth: 1
       }
     ]

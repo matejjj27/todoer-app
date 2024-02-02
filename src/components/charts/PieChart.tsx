@@ -35,7 +35,7 @@ function PieChart({ chartData, height, isBig }: PieChartProps) {
         <div
           className={`rounded-xl flex self-center bg-${backgroundColor}-800 w-2 h-2 mr-1 dark:text-white`}
         />
-        <span className="text-white text-xs">{label}</span>
+        <span className=" text-gray-900 dark:text-gray-50 text-xs">{label}</span>
       </div>
     );
   });
@@ -60,7 +60,7 @@ function PieChart({ chartData, height, isBig }: PieChartProps) {
             <div className="flex flex-col justify-center items-center">
               {percentage.map((percent) => {
                 return (
-                  <span className="text-gray-500 text-xs">{percent}%</span>
+                  <span className="text-gray-600 dark:text-gray-500 text-xs">{percent}%</span>
                 );
               })}
             </div>
@@ -78,7 +78,7 @@ function PieChart({ chartData, height, isBig }: PieChartProps) {
       {isBig && renderPercentages()}
 
       {!isBig && (
-        <div className="flex flex-col justify-center text-gray-500 text-sm">
+        <div className="flex flex-col justify-center text-gray-600 dark:text-gray-500 text-xs">
           {percentages[0][0]}%
         </div>
       )}
