@@ -6,7 +6,7 @@ import { PlusIcon } from "@heroicons/react/24/solid";
 import { UIContext } from "../../context/UIProvider";
 import ConfirmationModal from "../ConfirmationModal";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import useDragAndDrop from "../../hooks/useDragAndDrop";
+// import useDragAndDrop from "../../hooks/useDragAndDrop";
 
 const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
   const [newCategoryName, setNewCategoryName] = useState<string>("");
@@ -18,7 +18,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
   const { categories, currentCategory, addNewCategory, deleteCategory } =
     useContext(TodoContext);
   const navigate = useNavigate();
-  const { onDragEnd } = useDragAndDrop();
+  // const { onDragEnd } = useDragAndDrop();
 
   const upcomingTodos = categories
     ? categories.reduce((accumulator, category) => {
@@ -276,13 +276,13 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
             )}
           </div>
           <DragDropContext
-            onDragEnd={(result) =>
+            onDragEnd={() =>
               // onDragEnd(result, editCategory, moveTodo, currentCategory)
               console.log("kur")
             }
           >
             <Droppable droppableId="categories">
-              {(provided, snapshot) => (
+              {(provided) => (
                 <ul
                   ref={provided.innerRef}
                   {...provided.droppableProps}
@@ -294,7 +294,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
                       draggableId={category?.id || ""}
                       index={index}
                     >
-                      {(provided, snapshot) => (
+                      {(provided) => (
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}

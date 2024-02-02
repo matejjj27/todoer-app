@@ -48,6 +48,7 @@ const CatInfoSquare = ({ category }: CatInfoSquareProps) => {
         }
       ]
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, isDarkMode]);
 
   return (
