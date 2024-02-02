@@ -128,12 +128,12 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
           )}
         </div>
         <div className="flex flex-col gap-4">
-          <div className="flex  flex-wrap gap-4 w-60">
+          <div className="flex  flex-wrap gap-3 w-60">
             {categories.map((category) => {
               return <CatInfoSquare key={category.id} category={category} />;
             })}
           </div>
-          <div className="rounded-xl bg-gray-200 dark:bg-gray-750 p-2 w-60">
+          <div className="rounded-xl bg-gray-200 dark:bg-gray-750 p-2 w-60 mt-2">
             <PieChart chartData={chartData} height={24} isBig />
           </div>
         </div>
