@@ -103,7 +103,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
           })}
 
           {isNewCategoryClicked ? (
-            <div className="rounded-xl flex bg-gray-200 dark:bg-gray-750 p-2 h-14 w-56">
+            <div className="rounded-xl flex bg-gray-200 dark:bg-gray-750 p-2 h-14 w-60">
               <div className="rounded-xl flex bg-gray-500 py-2 w-1 ml-0.5 mr-0 dark:text-white" />
               <div className="text-gray-900 dark:text-white">
                 <input
