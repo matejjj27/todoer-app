@@ -114,13 +114,16 @@ const Category = ({ isSideNavOpened }: ComponentWithSideNav) => {
             const { color } = todoSubCategory;
             return (
               <Droppable key={todoSubCategory.id} droppableId={`${index}`}>
-                {(provided) => (
+                {(provided, snapshot) => (
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                     className={`todo-card p-4 rounded-lg shadow-md gap-2 dark:bg-${color}-900 bg-${color}-200`}
                   >
-                    <TodoCard todoSubCategory={todoSubCategory} />
+                    <TodoCard
+                      todoSubCategory={todoSubCategory}
+                      isDraggingOver={snapshot.isDraggingOver}
+                    />
 
                     {provided.placeholder}
                   </div>

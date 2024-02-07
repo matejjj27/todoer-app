@@ -9,9 +9,10 @@ import { UIContext } from "../context/UIProvider";
 
 interface TodoCardProps {
   todoSubCategory: ISubCategory;
+  isDraggingOver: boolean;
 }
 
-function TodoCard({ todoSubCategory }: TodoCardProps) {
+function TodoCard({ todoSubCategory, isDraggingOver }: TodoCardProps) {
   const [newTodoName, setNewTodoName] = useState<string>("");
   const [isNewTodoClicked, setIsNewTodoClicked] = useState<boolean>(false);
   const { addNewTodo } = useContext(TodoContext);
@@ -85,7 +86,7 @@ function TodoCard({ todoSubCategory }: TodoCardProps) {
               ref={inputRef}
               name="todo-label"
               placeholder="Todo..."
-              className={`cursor-pointer ml-5 text-gray-900 dark:text-white bg-transparent text-sm overflow-hidden outline-none`}
+              className={`cursor-pointer ml-6 text-gray-900 dark:text-white bg-transparent text-sm overflow-hidden outline-none`}
               value={newTodoName}
               onChange={(e) => setNewTodoName(e.target.value)}
               onBlur={handleTodoCreate}
@@ -94,12 +95,14 @@ function TodoCard({ todoSubCategory }: TodoCardProps) {
           </div>
         )}
       </div>
-      <div
-        className="cursor-pointer self-center"
-        onClick={() => setIsNewTodoClicked(true)}
-      >
-        <PlusIcon height={22} color={isDarkMode ? "white" : "black"} />
-      </div>
+      {!isDraggingOver && (
+        <div
+          className="cursor-pointer self-center"
+          onClick={() => setIsNewTodoClicked(true)}
+        >
+          <PlusIcon height={22} color={isDarkMode ? "white" : "black"} />
+        </div>
+      )}
     </>
   );
 }

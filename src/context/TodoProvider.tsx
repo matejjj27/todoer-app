@@ -57,20 +57,47 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
   };
 
   const addNewCategory = (newCategory: ICategory) => {
-    post("/categories", newCategory).then(() => {
-      getCategories();
+    post("/categories", newCategory).then((res) => {
+      setCategories((prev) => [...prev, res.data]);
     });
   };
 
   const addNewSubCategory = (newSubCategory: ISubCategory) => {
-    post("/sub-categories", newSubCategory).then(() => {
-      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+    post("/sub-categories", newSubCategory).then((res) => {
+      setCurrentCategory((prevCategory) => {
+        if (!prevCategory) return prevCategory;
+        return {
+          ...prevCategory,
+          subCategories: [...prevCategory.subCategories, res.data]
+        };
+      });
     });
   };
 
   const addNewTodo = (newTodo: ITodo) => {
-    post("/todos", newTodo).then(() => {
-      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+    post("/todos", newTodo).then((res) => {
+      if (
+        currentCategory &&
+        currentCategory.subCategories.some(
+          (subCategory) => subCategory.id === res.data.subCategory.id
+        )
+      ) {
+        setCurrentCategory((prevCategory) => {
+          if (!prevCategory) return prevCategory;
+          return {
+            ...prevCategory,
+            subCategories: prevCategory.subCategories.map((subCategory) => {
+              if (subCategory.id === res.data.subCategory.id) {
+                return {
+                  ...subCategory,
+                  todos: [...subCategory.todos, res.data]
+                };
+              }
+              return subCategory;
+            })
+          };
+        });
+      }
     });
   };
 

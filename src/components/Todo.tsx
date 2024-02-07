@@ -34,6 +34,7 @@ const Todo = ({ todo, todoSubCategory, provided }: TodoProps) => {
       className="flex justify-between gap-2 pl-1 "
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      {...provided.dragHandleProps}
     >
       <div className="flex gap-1">
         <div className="container">
@@ -41,7 +42,7 @@ const Todo = ({ todo, todoSubCategory, provided }: TodoProps) => {
             <input
               id={`checkbox-${todo.id}`}
               name="is-completed"
-              className="w-3 h-3"
+              className="w-3 h-3 ml-1"
               type="checkbox"
               checked={isCompleted}
               onChange={() =>
@@ -51,7 +52,6 @@ const Todo = ({ todo, todoSubCategory, provided }: TodoProps) => {
             <label htmlFor={`checkbox-${todo.id}`} />
           </div>
         </div>
-        <div></div>
         <div className="text-gray-900 dark:text-white max-w-full">
           <input
             name="todo-label"
