@@ -96,7 +96,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
       >
         Home
       </h1>
-      <div className="flex gap-10 ml-1 my-10 justify-center">
+      <div className="flex gap-10 mx-2 mt-14 mb-10 justify-center flex-wrap">
         <div className="flex flex-col gap-3">
           {categories.map((category) => {
             return <CatBubble key={category.id} category={category} />;
@@ -120,7 +120,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
             </div>
           ) : (
             <div
-              className="cursor-pointer rounded-xl justify-center flex bg-blue-800 p-2 w-56"
+              className="cursor-pointer rounded-xl justify-center flex bg-blue-800 p-2 w-60"
               onClick={() => setIsNewCategoryClicked(true)}
             >
               <h1 className="text-white text-xs">+ NEW CATEGORY</h1>
@@ -133,7 +133,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
               return <CatInfoSquare key={category.id} category={category} />;
             })}
           </div>
-          <div className="rounded-xl bg-gray-200 dark:bg-gray-750 p-2 w-60 mt-2">
+          <div className="rounded-xl bg-gray-200 dark:bg-gray-750 py-2 pl-2 w-60 mt-2">
             <PieChart chartData={chartData} height={24} isBig />
           </div>
         </div>
