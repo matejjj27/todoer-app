@@ -289,7 +289,10 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
                       strokeWidth={1.5}
                       stroke={isDarkMode ? "white" : "black"}
                       className="w-4 h-4 mr-1.5"
-                      onClick={() => setIsDeleteCategoryClicked(true)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsDeleteCategoryClicked(true);
+                      }}
                     >
                       <path
                         strokeLinecap="round"
