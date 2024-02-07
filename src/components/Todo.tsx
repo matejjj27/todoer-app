@@ -49,7 +49,10 @@ const Todo = ({ todo, todoSubCategory, provided }: TodoProps) => {
                 editTodo({ ...todo, isCompleted: !todo.isCompleted })
               }
             />
-            <label htmlFor={`checkbox-${todo.id}`} />
+            <label
+              htmlFor={`checkbox-${todo.id}`}
+              className="border-2 rounded-full dark:border-white border-black"
+            />
           </div>
         </div>
         <div className="text-gray-900 dark:text-white max-w-full">

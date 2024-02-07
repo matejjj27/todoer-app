@@ -85,7 +85,6 @@
   }
 
   .round label {
-    border: 2px solid #fff;
     border-radius: 50%;
     cursor: pointer;
     height: 15px;
