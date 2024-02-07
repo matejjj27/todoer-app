@@ -36,17 +36,22 @@ const Todo = ({ todo, todoSubCategory, provided }: TodoProps) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="flex gap-1">
-        <div>
-          <input
-            name="is-completed"
-            className="w-3 h-3"
-            type="checkbox"
-            checked={isCompleted}
-            onChange={() =>
-              editTodo({ ...todo, isCompleted: !todo.isCompleted })
-            }
-          />
+        <div className="container">
+          <div className="round">
+            <input
+              id={`checkbox-${todo.id}`}
+              name="is-completed"
+              className="w-3 h-3"
+              type="checkbox"
+              checked={isCompleted}
+              onChange={() =>
+                editTodo({ ...todo, isCompleted: !todo.isCompleted })
+              }
+            />
+            <label htmlFor={`checkbox-${todo.id}`} />
+          </div>
         </div>
+        <div></div>
         <div className="text-gray-900 dark:text-white max-w-full">
           <input
             name="todo-label"
