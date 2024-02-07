@@ -117,8 +117,14 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
 
   const editCategory = (newCategory: ICategory) => {
     patch(`/categories/${newCategory.id}`, newCategory).then(() => {
-      if (currentCategory?.id) findCategoryById(currentCategory?.id);
-      else getCategories();
+      if (currentCategory?.id === newCategory.id) {
+        setCurrentCategory(newCategory);
+      }
+      setCategories((prevCategories) =>
+        prevCategories.map((category) =>
+          category.id === newCategory.id ? newCategory : category
+        )
+      );
     });
   };
 
@@ -128,13 +134,28 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
 
   const editTodo = (newTodo: ITodo) => {
     patch(`/todos/${newTodo.id}`, newTodo).then(() => {
-      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+      if (currentCategory) {
+        setCurrentCategory((prevCategory) => {
+          if (!prevCategory) return prevCategory;
+          return {
+            ...prevCategory,
+            subCategories: prevCategory.subCategories.map((subCategory) => ({
+              ...subCategory,
+              todos: subCategory.todos.map((todo) =>
+                todo.id === newTodo.id ? newTodo : todo
+              )
+            }))
+          };
+        });
+      }
     });
   };
 
   const deleteCategory = (categoryId: string) => {
     del(`/categories/${categoryId}`).then(() => {
-      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+      setCategories((prevCategories) =>
+        prevCategories.filter((category) => category.id !== categoryId)
+      );
     });
   };
 
@@ -152,7 +173,18 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
 
   const deleteTodo = (todoId: string) => {
     del(`/todos/${todoId}`).then(() => {
-      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+      if (currentCategory) {
+        setCurrentCategory((prevCategory) => {
+          if (!prevCategory) return prevCategory;
+          return {
+            ...prevCategory,
+            subCategories: prevCategory.subCategories.map((subCategory) => ({
+              ...subCategory,
+              todos: subCategory.todos.filter((todo) => todo.id !== todoId)
+            }))
+          };
+        });
+      }
     });
   };
 
