@@ -84,7 +84,7 @@ function PieChart({ chartData, height, isBig }: PieChartProps) {
     <div
       className={`flex gap-4 ${
         isBig ? "justify-center items-center py-2" : ""
-      } w-52`}
+      } w-56`}
     >
       <div className={`h-${height} w-${height} ${isBig ? "h-24 w-24" : ""}`}>
         <Pie data={chartData} options={options} />

@@ -20,7 +20,7 @@
   }
 
   .todo-card {
-    @apply dark:bg-gray-750 bg-gray-350 p-3 flex flex-col justify-between rounded-lg min-h-[12rem] w-72;
+    @apply dark:bg-gray-750 bg-gray-350 p-3 flex flex-col justify-between rounded-lg min-h-[12rem] w-80;
   }
 
   .confirmation-modal {
