@@ -49,6 +49,8 @@ function TodoCard({ todoSubCategory, isDraggingOver }: TodoCardProps) {
     }
   };
 
+  console.log(todoSubCategory.color, "todoSubCategory.color");
+
   return (
     <>
       <div className="mt-1 flex flex-col gap-1 justify-between">
@@ -61,20 +63,26 @@ function TodoCard({ todoSubCategory, isDraggingOver }: TodoCardProps) {
                 <div
                   ref={provided.innerRef}
                   {...provided.draggableProps}
-                  className={`mt-1 flex flex-col gap-1 py-1.5 rounded-md hover:bg-${
-                    todoSubCategory.color
-                  }-200 dark:hover:bg-${todoSubCategory.color}-700 ${
-                    snapshot.isDragging
-                      ? `bg-${todoSubCategory.color}-300 dark:bg-${todoSubCategory.color}-800`
-                      : ""
-                  }`}
+                  className={`mt-1 flex flex-col gap-1 py-1.5 rounded-md hover:bg-${todoSubCategory.color}-200 dark:hover:bg-${todoSubCategory.color}-700`}
                 >
-                  <Todo
-                    key={todo.id}
-                    todo={todo}
-                    todoSubCategory={todoSubCategory}
-                    provided={provided}
-                  />
+                  <div
+                    style={{
+                      backgroundColor: snapshot.isDragging
+                        ? isDarkMode
+                          ? todoSubCategory.color
+                          : todoSubCategory.color
+                        : "",
+                      padding: 4,
+                      borderRadius: 8
+                    }}
+                  >
+                    <Todo
+                      key={todo.id}
+                      todo={todo}
+                      todoSubCategory={todoSubCategory}
+                      provided={provided}
+                    />
+                  </div>
                 </div>
               )}
             </Draggable>

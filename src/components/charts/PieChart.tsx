@@ -33,7 +33,8 @@ function PieChart({ chartData, height, isBig }: PieChartProps) {
     return (
       <div key={index} className="flex">
         <div
-          className={`rounded-xl flex self-center bg-${backgroundColor}-800 w-2 h-2 mr-1 dark:text-white`}
+          style={{ backgroundColor: backgroundColor }}
+          className={`rounded-xl flex self-center w-2 h-2 mr-1 dark:text-white`}
         />
         <span className=" text-gray-900 dark:text-gray-50 text-xs">
           {label}

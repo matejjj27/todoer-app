@@ -54,24 +54,16 @@ const CatInfoSquare = ({ category }: CatInfoSquareProps) => {
   return (
     <div className="flex flex-col rounded-xl bg-gray-200 dark:bg-gray-750 p-2 w-28">
       <div className="mb-2 ml-0.5">
-        <div className={`chart-border border-${category.color}-700`} />
+        <div
+          style={{ border: `1px solid ${category.color}` }}
+          className={`chart-border`}
+        />
         <PieChart chartData={chartData} height={6} />
       </div>
 
       <h1 className="text-gray-900 dark:text-gray-100 text-sm">
         {category?.name}
       </h1>
-      {/* <p className="text-gray-900 dark:text-white text-sm">
-        {category.subCategories[0].name}
-      </p> */}
-
-      {/* <div
-        className={`rounded-xl mt-2 bg-${category.color}-200 bg-opacity-20 justify-center flex py-0.5 px-0.5`}
-      >
-        <p className={`text-${category.color}-500 text-xs text-center`}>
-          {category.subCategories[0].todos[0].name}
-        </p>
-      </div> */}
     </div>
   );
 };
