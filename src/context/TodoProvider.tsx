@@ -150,7 +150,32 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
       destinationSubCategoryId,
       todoId: movedTodoID
     }).then(() => {
-      if (currentCategory?.id) findCategoryById(currentCategory?.id);
+      if (currentCategory) {
+        const updatedCategory = { ...currentCategory };
+
+        const originalSubCategory = updatedCategory.subCategories.find(
+          (subCategory) =>
+            subCategory.todos.some((todo) => todo.id === movedTodoID)
+        );
+        const destinationSubCategory = updatedCategory.subCategories.find(
+          (subCategory) => subCategory.id === destinationSubCategoryId
+        );
+
+        if (originalSubCategory && destinationSubCategory) {
+          const movedTodo = originalSubCategory.todos.find(
+            (todo) => todo.id === movedTodoID
+          );
+          originalSubCategory.todos = originalSubCategory.todos.filter(
+            (todo) => todo.id !== movedTodoID
+          );
+
+          if (movedTodo) {
+            destinationSubCategory.todos.push(movedTodo);
+          }
+
+          setCurrentCategory(updatedCategory);
+        }
+      }
     });
   };
 
