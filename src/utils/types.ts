@@ -27,3 +27,18 @@ export interface ComponentWithSideNav {
   isSideNavOpened?: boolean;
   toggleSideNav?: () => void;
 }
+
+export interface ILoadingState {
+  isFindCategoryByIdLoading: boolean;
+  isGetCategoriesLoading: boolean;
+  isAddNewCategoryLoading: boolean;
+  isAddNewSubCategoryLoading: boolean;
+  isAddNewTodoLoading: boolean;
+  isMoveTodoLoading: boolean;
+  isEditCategoryLoading: boolean;
+  isEditSubCategoryLoading: boolean;
+  isEditTodoLoading: boolean;
+  isDeleteCategoryLoading: boolean;
+  isDeleteSubCategoryLoading: boolean;
+  isDeleteTodoLoading: boolean;
+}

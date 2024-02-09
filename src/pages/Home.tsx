@@ -7,6 +7,7 @@ import PieChart from "../components/charts/PieChart.tsx";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import CatInfoSquare from "../components/CatInfoSquare.tsx";
+import { ThreeDots } from "react-loader-spinner";
 
 Chart.register(CategoryScale);
 
@@ -14,7 +15,8 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
   const [newCategoryName, setNewCategoryName] = useState<string>("");
   const [isNewCategoryClicked, setIsNewCategoryClicked] =
     useState<boolean>(false);
-  const { categories, addNewCategory } = useContext(TodoContext);
+  const { categories, addNewCategory, loadingStates } = useContext(TodoContext);
+  const { isGetCategoriesLoading } = loadingStates;
 
   const [chartData, setChartData] = useState({
     labels: categories?.map((data) => data?.name) || "",
@@ -97,46 +99,62 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
         Home
       </h1>
       <div className="flex gap-10 mx-2 mt-14 mb-10 justify-center flex-wrap">
-        <div className="flex flex-col gap-3">
-          {categories.map((category) => {
-            return <CatBubble key={category.id} category={category} />;
-          })}
+        {isGetCategoriesLoading ? (
+          <div className="mr-10">
+            <ThreeDots
+              visible={true}
+              height="200"
+              width="60"
+              color="#4fa94d"
+              radius="9"
+            />
+          </div>
+        ) : (
+          <>
+            <div className="flex flex-col gap-3">
+              {categories.map((category) => {
+                return <CatBubble key={category.id} category={category} />;
+              })}
 
-          {isNewCategoryClicked ? (
-            <div className="rounded-xl flex bg-gray-200 dark:bg-gray-750 p-2 h-14 w-60">
-              <div className="rounded-xl flex bg-gray-500 py-2 w-1 ml-0.5 mr-0 dark:text-white" />
-              <div className="text-gray-900 dark:text-white">
-                <input
-                  ref={inputRef}
-                  name="category-label"
-                  placeholder="Category..."
-                  className={`cursor-pointer ml-3 w-44 text-gray-900 dark:text-white bg-transparent overflow-hidden outline-none`}
-                  value={newCategoryName}
-                  onChange={(e) => setNewCategoryName(e.target.value)}
-                  onBlur={handleCategoryCreate}
-                  onKeyDown={handleEnterKey}
-                />
+              {isNewCategoryClicked ? (
+                <div className="rounded-xl flex bg-gray-200 dark:bg-gray-750 p-2 h-14 w-60">
+                  <div className="rounded-xl flex bg-gray-500 py-2 w-1 ml-0.5 mr-0 dark:text-white" />
+                  <div className="text-gray-900 dark:text-white">
+                    <input
+                      ref={inputRef}
+                      name="category-label"
+                      placeholder="Category..."
+                      className={`cursor-pointer ml-3 w-44 text-gray-900 dark:text-white bg-transparent overflow-hidden outline-none`}
+                      value={newCategoryName}
+                      onChange={(e) => setNewCategoryName(e.target.value)}
+                      onBlur={handleCategoryCreate}
+                      onKeyDown={handleEnterKey}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div
+                  className="cursor-pointer rounded-xl justify-center flex bg-blue-800 p-2 w-60"
+                  onClick={() => setIsNewCategoryClicked(true)}
+                >
+                  <h1 className="text-white text-xs">+ NEW CATEGORY</h1>
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col gap-4">
+              <div className="flex  flex-wrap gap-3 w-60">
+                {categories.map((category) => {
+                  return (
+                    <CatInfoSquare key={category.id} category={category} />
+                  );
+                })}
+              </div>
+              <div className="rounded-xl bg-gray-200 dark:bg-gray-750 py-2 pl-2 w-60 mt-2">
+                <PieChart chartData={chartData} height={24} isBig />
               </div>
             </div>
-          ) : (
-            <div
-              className="cursor-pointer rounded-xl justify-center flex bg-blue-800 p-2 w-60"
-              onClick={() => setIsNewCategoryClicked(true)}
-            >
-              <h1 className="text-white text-xs">+ NEW CATEGORY</h1>
-            </div>
-          )}
-        </div>
-        <div className="flex flex-col gap-4">
-          <div className="flex  flex-wrap gap-3 w-60">
-            {categories.map((category) => {
-              return <CatInfoSquare key={category.id} category={category} />;
-            })}
-          </div>
-          <div className="rounded-xl bg-gray-200 dark:bg-gray-750 py-2 pl-2 w-60 mt-2">
-            <PieChart chartData={chartData} height={24} isBig />
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </div>
   );

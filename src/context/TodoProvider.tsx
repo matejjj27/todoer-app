@@ -1,8 +1,9 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { ITodo, ICategory, ISubCategory } from "../utils/types";
+import { ITodo, ICategory, ISubCategory, ILoadingState } from "../utils/types";
 import useApi from "../hooks/useApi";
 
-interface Todos {
+interface ITodoContext {
+  loadingStates: ILoadingState;
   categories: ICategory[];
   currentCategory: ICategory | undefined;
   findCategoryById: (id: string) => Promise<void>;
@@ -27,33 +28,71 @@ interface TodoProviderProps {
   children: ReactNode;
 }
 
-export const TodoContext = createContext<Todos>({} as Todos);
+export const TodoContext = createContext<ITodoContext>({} as ITodoContext);
 
 const TodoProvider = ({ children }: TodoProviderProps) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [currentCategory, setCurrentCategory] = useState<ICategory>();
+  const [loadingStates, setLoadingStates] = useState<ILoadingState>({
+    isFindCategoryByIdLoading: false,
+    isGetCategoriesLoading: true,
+    isAddNewCategoryLoading: false,
+    isAddNewSubCategoryLoading: false,
+    isAddNewTodoLoading: false,
+    isMoveTodoLoading: false,
+    isEditCategoryLoading: false,
+    isEditSubCategoryLoading: false,
+    isEditTodoLoading: false,
+    isDeleteCategoryLoading: false,
+    isDeleteSubCategoryLoading: false,
+    isDeleteTodoLoading: false
+  });
 
   const { get, post, patch, del } = useApi();
 
   useEffect(() => {
-    getCategories();
+    getCategories().finally(() =>
+      setLoadingStates((prevState) => ({
+        ...prevState,
+        isGetCategoriesLoading: false
+      }))
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getCategories = async () => {
-    return await get("/categories").then((res) => {
-      setCategories(res.data);
-      return res.data;
-    });
+    setLoadingStates((prevState) => ({
+      ...prevState,
+      isGetCategoriesLoading: true
+    }));
+    return await get("/categories")
+      .then((res) => {
+        setCategories(res.data);
+        return res.data;
+      })
+      .finally(() =>
+        setLoadingStates((prevState) => ({
+          ...prevState,
+          isGetCategoriesLoading: false
+        }))
+      );
   };
 
   const findCategoryById = async (id: string) => {
+    setLoadingStates((prevState) => ({
+      ...prevState,
+      isFindCategoryByIdLoading: true
+    }));
     const categories = await getCategories();
     categories.map((category: ICategory) => {
       if (category.id === id) {
         setCurrentCategory(category);
       }
     });
+    setLoadingStates((prevState) => ({
+      ...prevState,
+      isFindCategoryByIdLoading: false
+    }));
   };
 
   const addNewCategory = (newCategory: ICategory) => {
@@ -189,6 +228,7 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
   };
 
   const value = {
+    loadingStates,
     categories,
     currentCategory,
     findCategoryById,
