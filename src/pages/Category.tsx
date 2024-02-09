@@ -119,7 +119,7 @@ const Category = ({ isSideNavOpened }: ComponentWithSideNav) => {
           onBlur={handleEditCategory}
         />
       )}
-      {isFindCategoryByIdLoading ? (
+      {/* {isFindCategoryByIdLoading ? (
         <div className="flex justify-center mr-10">
           <ThreeDots
             visible={true}
@@ -129,7 +129,7 @@ const Category = ({ isSideNavOpened }: ComponentWithSideNav) => {
             radius="9"
           />
         </div>
-      ) : (
+      ) : ( */}
         <div className="flex justify-center gap-5 flex-wrap border-2 rounded-lg ml-2 mr-5 p-5 my-8 border-gray-350 dark:border-gray-900">
           <DragDropContext
             onDragEnd={(result) =>
@@ -184,7 +184,7 @@ const Category = ({ isSideNavOpened }: ComponentWithSideNav) => {
             )}
           </DragDropContext>
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 };
