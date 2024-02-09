@@ -67,11 +67,11 @@ function TodoCard({ todoSubCategory, isDraggingOver }: TodoCardProps) {
                     style={{
                       backgroundColor: snapshot.isDragging
                         ? isDarkMode
-                          ? todoSubCategory.color
-                          : todoSubCategory.color
+                          ? 'rgba(256, 256, 256, 0.2)'
+                          : 'rgba(256, 256, 256, 0.2)'
                         : "",
                       padding: 4,
-                      borderRadius: 8
+                      borderRadius: 6
                     }}
                   >
                     <Todo
