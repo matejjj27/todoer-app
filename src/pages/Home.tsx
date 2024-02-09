@@ -134,22 +134,22 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
                 </div>
               ) : (
                 <div
-                  className="cursor-pointer rounded-xl justify-center flex bg-blue-800 p-2 w-60"
+                  className="cursor-pointer rounded-xl justify-center flex bg-blue-800 py-2.5 w-60"
                   onClick={() => setIsNewCategoryClicked(true)}
                 >
                   <h1 className="text-white text-xs">+ NEW CATEGORY</h1>
                 </div>
               )}
             </div>
-            <div className="flex flex-col gap-4">
-              <div className="flex  flex-wrap gap-3 w-60">
+            <div className="flex flex-col gap-4 w-72 px-2">
+              <div className="flex flex-wrap gap-3.5">
                 {categories.map((category) => {
                   return (
                     <CatInfoSquare key={category.id} category={category} />
                   );
                 })}
               </div>
-              <div className="rounded-xl bg-gray-200 dark:bg-gray-750 py-2 pl-2 w-60 mt-2">
+              <div className="flex justify-center rounded-xl bg-gray-200 dark:bg-gray-750 p-1">
                 <PieChart chartData={chartData} height={24} isBig />
               </div>
             </div>

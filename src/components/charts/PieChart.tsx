@@ -18,7 +18,7 @@ interface PieChartProps {
   isBig?: boolean;
 }
 
-function PieChart({ chartData, height, isBig }: PieChartProps) {
+const PieChart = ({ chartData, height, isBig }: PieChartProps) => {
   const options: ChartOptions<"pie"> = {
     cutout: isBig ? "50%" : "0%",
     plugins: {
@@ -83,21 +83,21 @@ function PieChart({ chartData, height, isBig }: PieChartProps) {
 
   return (
     <div
-      className={`flex gap-4 ${
+      className={`flex gap-3 ${
         isBig ? "justify-center items-center py-2" : ""
-      } w-56`}
+      }`}
     >
-      <div className={`h-${height} w-${height} ${isBig ? "h-24 w-24" : ""}`}>
+      <div className={`h-${height} w-${height} ${isBig ? "h-28 w-28" : ""}`}>
         <Pie data={chartData} options={options} />
       </div>
       {isBig && renderPercentages()}
 
       {!isBig && (
         <div className="flex flex-col justify-center text-gray-600 dark:text-gray-500 text-xs">
-          {percentages[0][0] === "NaN" ? 0 : percentages[0][0]}%
+          {percentages[0][0] === "NaN" ? 0 : percentages[0][0]}% Done
         </div>
       )}
     </div>
   );
-}
+};
 export default PieChart;

@@ -54,9 +54,9 @@ const CatBubble = ({ category }: CatBubbleProps) => {
       <div className="flex">
         <div
           style={{ backgroundColor: color }}
-          className={`rounded-xl flex py-2 w-1 ml-0.5 mr-2 dark:text-white`}
+          className={`rounded-xl flex w-1.5 ml-0.5 mr-2 dark:text-white`}
         />
-        <div className=" flex-col gap-5">
+        <div className="flex flex-col gap-1 py-1">
           {!isEditClicked ? (
             <h1 className="text-gray-950 dark:text-white">{name}</h1>
           ) : (

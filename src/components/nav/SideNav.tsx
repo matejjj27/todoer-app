@@ -140,7 +140,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-750 rounded-xl">
           <ul className="space-y-2 mb-3">
             <li className="flex justify-between items-center">
-              <p className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white group">
+              <p className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white group text-lg">
                 Menu
               </p>
               <button

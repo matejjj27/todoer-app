@@ -52,7 +52,7 @@ const CatInfoSquare = ({ category }: CatInfoSquareProps) => {
   }, [category, isDarkMode]);
 
   return (
-    <div className="flex flex-col rounded-xl bg-gray-200 dark:bg-gray-750 p-2 w-28">
+    <div className="flex flex-col gap-1 rounded-xl bg-gray-200 dark:bg-gray-750 p-2 w-32">
       <div className="mb-2 ml-0.5">
         <div
           style={{ border: `1px solid ${category.color}` }}
