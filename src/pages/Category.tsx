@@ -96,12 +96,12 @@ const Category = ({ isSideNavOpened }: ComponentWithSideNav) => {
       } max-sm:pl-0`}
     >
       {isFindCategoryByIdLoading ? (
-        <div className="ml-7">
+        <div className={`${isSideNavOpened ? "ml-6" : "ml-20"}`}>
           <ThreeDots
             visible={true}
             height="36.5"
             width="30"
-            color="#4fa94d"
+            color="#969C9C"
             radius="9"
           />
         </div>
@@ -130,60 +130,60 @@ const Category = ({ isSideNavOpened }: ComponentWithSideNav) => {
           />
         </div>
       ) : ( */}
-        <div className="flex justify-center gap-5 flex-wrap border-2 rounded-lg ml-2 mr-5 p-5 my-8 border-gray-350 dark:border-gray-900">
-          <DragDropContext
-            onDragEnd={(result) =>
-              onDragEnd(result, editCategory, moveTodo, currentCategory)
-            }
-          >
-            {!isFindCategoryByIdLoading &&
-              currentCategory?.subCategories?.map((todoSubCategory, index) => {
-                const { color } = todoSubCategory;
-                return (
-                  <Droppable key={todoSubCategory.id} droppableId={`${index}`}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        style={{ backgroundColor: todoSubCategory.color }}
-                        className={`todo-card p-4 rounded-lg shadow-md gap-2 dark:bg-${color}-900 bg-${color}-200`}
-                      >
-                        <TodoCard
-                          todoSubCategory={todoSubCategory}
-                          isDraggingOver={snapshot.isDraggingOver}
-                        />
+      <div className="flex justify-center gap-5 flex-wrap border-2 rounded-lg ml-2 mr-5 p-5 my-8 border-gray-350 dark:border-gray-900">
+        <DragDropContext
+          onDragEnd={(result) =>
+            onDragEnd(result, editCategory, moveTodo, currentCategory)
+          }
+        >
+          {!isFindCategoryByIdLoading &&
+            currentCategory?.subCategories?.map((todoSubCategory, index) => {
+              const { color } = todoSubCategory;
+              return (
+                <Droppable key={todoSubCategory.id} droppableId={`${index}`}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      style={{ backgroundColor: todoSubCategory.color }}
+                      className={`todo-card p-4 rounded-lg shadow-md gap-2 dark:bg-${color}-900 bg-${color}-200`}
+                    >
+                      <TodoCard
+                        todoSubCategory={todoSubCategory}
+                        isDraggingOver={snapshot.isDraggingOver}
+                      />
 
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                );
-              })}
-            {isNewSubCategoryClicked ? (
-              <div
-                className={`todo-card p-4 rounded-lg shadow-md gap-2 dark:bg-black-900 bg-black-200`}
-              >
-                <input
-                  ref={subCategoryInputRef}
-                  name="sub-category-label"
-                  placeholder="Sub-Category..."
-                  className={`cursor-pointer mt-1 text-2xl font-bold bg-transparent text-gray-900 dark:text-white overflow-hidden whitespace-nowrap max-w-full border-none outline-none`}
-                  value={newSubCategoryName}
-                  onChange={(e) => setNewSubCategoryName(e.target.value)}
-                  onBlur={handleSubCategoryCreate}
-                  onKeyDown={handleEnterKey}
-                />
-              </div>
-            ) : (
-              <div
-                className="todo-card text-center justify-center cursor-pointer shadow-md dark:bg-gray-750 bg-gray-350"
-                onClick={() => setIsNewSubCategoryClicked(true)}
-              >
-                <PlusIcon height={60} color={isDarkMode ? "white" : "black"} />
-              </div>
-            )}
-          </DragDropContext>
-        </div>
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              );
+            })}
+          {isNewSubCategoryClicked ? (
+            <div
+              className={`todo-card p-4 rounded-lg shadow-md gap-2 dark:bg-black-900 bg-black-200`}
+            >
+              <input
+                ref={subCategoryInputRef}
+                name="sub-category-label"
+                placeholder="Sub-Category..."
+                className={`cursor-pointer mt-1 text-2xl font-bold bg-transparent text-gray-900 dark:text-white overflow-hidden whitespace-nowrap max-w-full border-none outline-none`}
+                value={newSubCategoryName}
+                onChange={(e) => setNewSubCategoryName(e.target.value)}
+                onBlur={handleSubCategoryCreate}
+                onKeyDown={handleEnterKey}
+              />
+            </div>
+          ) : (
+            <div
+              className="todo-card text-center justify-center cursor-pointer shadow-md dark:bg-gray-750 bg-gray-350"
+              onClick={() => setIsNewSubCategoryClicked(true)}
+            >
+              <PlusIcon height={60} color={isDarkMode ? "white" : "black"} />
+            </div>
+          )}
+        </DragDropContext>
+      </div>
       {/* )} */}
     </div>
   );

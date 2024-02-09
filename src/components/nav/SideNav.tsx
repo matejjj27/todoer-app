@@ -285,7 +285,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
                 visible={true}
                 height="80"
                 width="20"
-                color="#4fa94d"
+                color="#969C9C"
                 radius="9"
               />
             </div>

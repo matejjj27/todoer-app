@@ -105,7 +105,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
               visible={true}
               height="200"
               width="60"
-              color="#4fa94d"
+              color="#969C9C"
               radius="9"
             />
           </div>
