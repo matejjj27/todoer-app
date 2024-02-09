@@ -119,17 +119,7 @@ const Category = ({ isSideNavOpened }: ComponentWithSideNav) => {
           onBlur={handleEditCategory}
         />
       )}
-      {/* {isFindCategoryByIdLoading ? (
-        <div className="flex justify-center mr-10">
-          <ThreeDots
-            visible={true}
-            height="310"
-            width="60"
-            color="#4fa94d"
-            radius="9"
-          />
-        </div>
-      ) : ( */}
+
       <div className="flex justify-center gap-5 flex-wrap border-2 rounded-lg ml-2 mr-5 p-5 my-8 border-gray-350 dark:border-gray-900">
         <DragDropContext
           onDragEnd={(result) =>
@@ -179,12 +169,23 @@ const Category = ({ isSideNavOpened }: ComponentWithSideNav) => {
               className="todo-card text-center justify-center cursor-pointer shadow-md dark:bg-gray-750 bg-gray-350"
               onClick={() => setIsNewSubCategoryClicked(true)}
             >
-              <PlusIcon height={60} color={isDarkMode ? "white" : "black"} />
+              {isFindCategoryByIdLoading ? (
+                <div className="flex justify-center mr-2">
+                  <ThreeDots
+                    visible={true}
+                    height="200"
+                    width="60"
+                    color="#969C9C"
+                    radius="9"
+                  />
+                </div>
+              ) : (
+                <PlusIcon height={60} color={isDarkMode ? "white" : "black"} />
+              )}
             </div>
           )}
         </DragDropContext>
       </div>
-      {/* )} */}
     </div>
   );
 };
