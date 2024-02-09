@@ -49,8 +49,6 @@ function TodoCard({ todoSubCategory, isDraggingOver }: TodoCardProps) {
     }
   };
 
-  console.log(todoSubCategory.color, "todoSubCategory.color");
-
   return (
     <>
       <div className="mt-1 flex flex-col gap-1 justify-between">

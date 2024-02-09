@@ -118,6 +118,7 @@ const Category = ({ isSideNavOpened }: ComponentWithSideNav) => {
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
+                    style={{ backgroundColor: todoSubCategory.color }}
                     className={`todo-card p-4 rounded-lg shadow-md gap-2 dark:bg-${color}-900 bg-${color}-200`}
                   >
                     <TodoCard
