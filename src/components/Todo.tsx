@@ -55,7 +55,7 @@ const Todo = ({ todo, todoSubCategory, provided }: TodoProps) => {
             />
           </div>
         </div>
-        <div className="text-gray-900 dark:text-white max-w-full">
+        <div className="text-gray-900 dark:text-white">
           <input
             name="todo-label"
             placeholder="Todo..."
@@ -64,7 +64,7 @@ const Todo = ({ todo, todoSubCategory, provided }: TodoProps) => {
               !isCompleted
                 ? ""
                 : "text-gray-500 dark:text-gray-600 line-through"
-            } bg-transparent text-sm overflow-hidden outline-none`}
+            } bg-transparent text-sm overflow-hidden outline-none w-52`}
             value={editedLabel}
             onChange={(e) => setEditedLabel(e.target.value)}
             onBlur={handleEditTodo}
