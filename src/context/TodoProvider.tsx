@@ -83,16 +83,29 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
       ...prevState,
       isFindCategoryByIdLoading: true
     }));
-    const categories = await getCategories();
-    categories.map((category: ICategory) => {
-      if (category.id === id) {
-        setCurrentCategory(category);
-      }
-    });
-    setLoadingStates((prevState) => ({
-      ...prevState,
-      isFindCategoryByIdLoading: false
-    }));
+
+    if (categories.length !== 0) {
+      categories.map((category: ICategory) => {
+        if (category.id === id) {
+          setCurrentCategory(category);
+        }
+      });
+      setLoadingStates((prevState) => ({
+        ...prevState,
+        isFindCategoryByIdLoading: false
+      }));
+    } else {
+      return await get(`/categories/${id}`)
+        .then((res) => {
+          setCurrentCategory(res.data);
+        })
+        .finally(() =>
+          setLoadingStates((prevState) => ({
+            ...prevState,
+            isFindCategoryByIdLoading: false
+          }))
+        );
+    }
   };
 
   const addNewCategory = (newCategory: ICategory) => {
