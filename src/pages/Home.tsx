@@ -99,7 +99,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
         Home
       </h1>
       <div className="flex gap-10 mx-2 mt-14 mb-10 justify-center flex-wrap">
-        {!isGetCategoriesLoading ? (
+        {isGetCategoriesLoading ? (
           <div className="mr-10">
             <ThreeDots
               visible={true}
