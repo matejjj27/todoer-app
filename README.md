@@ -1,3 +1,3 @@
-# Matej's Portfolio Web App
+# Todo Web App - Todoer App
 
-## [You can Preview it here](https://todoer-app-zeta.vercel.app/)
+## [Preview here](https://todoer-app-zeta.vercel.app/)
