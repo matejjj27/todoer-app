@@ -41,6 +41,11 @@ const useApi = (): ApiHooks => {
   api.interceptors.response.use(
     (response) => response,
     async (error) => {
+      if (error.code === "ECONNABORTED" && error.message.includes("timeout")) {
+        return Promise.reject(
+          new Error("Request timeout. Please try again later.")
+        );
+      }
       if (error.response) {
         // const { status } = error.response;
         // if (status && status === 401) {

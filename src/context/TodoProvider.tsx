@@ -3,6 +3,7 @@ import { ITodo, ICategory, ISubCategory, ILoadingState } from "../utils/types";
 import useApi from "../hooks/useApi";
 
 interface ITodoContext {
+  error: string;
   loadingStates: ILoadingState;
   categories: ICategory[];
   currentCategory: ICategory | undefined;
@@ -31,6 +32,7 @@ interface TodoProviderProps {
 export const TodoContext = createContext<ITodoContext>({} as ITodoContext);
 
 const TodoProvider = ({ children }: TodoProviderProps) => {
+  const [error, setError] = useState<string>("");
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [currentCategory, setCurrentCategory] = useState<ICategory>();
   const [loadingStates, setLoadingStates] = useState<ILoadingState>({
@@ -70,6 +72,9 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
         setCategories(res.data);
         return res.data;
       })
+      .catch((err) => {
+        setError(err?.message);
+      })
       .finally(() =>
         setLoadingStates((prevState) => ({
           ...prevState,
@@ -99,6 +104,9 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
         .then((res) => {
           setCurrentCategory(res.data);
         })
+        .catch((err) => {
+          setError(err?.message);
+        })
         .finally(() =>
           setLoadingStates((prevState) => ({
             ...prevState,
@@ -109,48 +117,60 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
   };
 
   const addNewCategory = (newCategory: ICategory) => {
-    post("/categories", newCategory).then((res) => {
-      setCategories((prev) => [...prev, res.data]);
-    });
+    post("/categories", newCategory)
+      .then((res) => {
+        setCategories((prev) => [...prev, res.data]);
+      })
+      .catch((err) => {
+        setError(err?.message);
+      });
   };
 
   const addNewSubCategory = (newSubCategory: ISubCategory) => {
-    post("/sub-categories", newSubCategory).then((res) => {
-      setCurrentCategory((prevCategory) => {
-        if (!prevCategory) return prevCategory;
-        return {
-          ...prevCategory,
-          subCategories: [...prevCategory.subCategories, res.data]
-        };
-      });
-    });
-  };
-
-  const addNewTodo = (newTodo: ITodo) => {
-    post("/todos", newTodo).then((res) => {
-      if (
-        currentCategory &&
-        currentCategory.subCategories.some(
-          (subCategory) => subCategory.id === res.data.subCategory.id
-        )
-      ) {
+    post("/sub-categories", newSubCategory)
+      .then((res) => {
         setCurrentCategory((prevCategory) => {
           if (!prevCategory) return prevCategory;
           return {
             ...prevCategory,
-            subCategories: prevCategory.subCategories.map((subCategory) => {
-              if (subCategory.id === res.data.subCategory.id) {
-                return {
-                  ...subCategory,
-                  todos: [...subCategory.todos, res.data]
-                };
-              }
-              return subCategory;
-            })
+            subCategories: [...prevCategory.subCategories, res.data]
           };
         });
-      }
-    });
+      })
+      .catch((err) => {
+        setError(err?.message);
+      });
+  };
+
+  const addNewTodo = (newTodo: ITodo) => {
+    post("/todos", newTodo)
+      .then((res) => {
+        if (
+          currentCategory &&
+          currentCategory.subCategories.some(
+            (subCategory) => subCategory.id === res.data.subCategory.id
+          )
+        ) {
+          setCurrentCategory((prevCategory) => {
+            if (!prevCategory) return prevCategory;
+            return {
+              ...prevCategory,
+              subCategories: prevCategory.subCategories.map((subCategory) => {
+                if (subCategory.id === res.data.subCategory.id) {
+                  return {
+                    ...subCategory,
+                    todos: [...subCategory.todos, res.data]
+                  };
+                }
+                return subCategory;
+              })
+            };
+          });
+        }
+      })
+      .catch((err) => {
+        setError(err?.message);
+      });
   };
 
   const moveTodo = (
@@ -162,47 +182,55 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
       ...newCategory,
       destinationSubCategoryId,
       todoId: movedTodoID
-    }).then(() => {
-      if (currentCategory) {
-        const updatedCategory = { ...currentCategory };
+    })
+      .then(() => {
+        if (currentCategory) {
+          const updatedCategory = { ...currentCategory };
 
-        const originalSubCategory = updatedCategory.subCategories.find(
-          (subCategory) =>
-            subCategory.todos.some((todo) => todo.id === movedTodoID)
-        );
-        const destinationSubCategory = updatedCategory.subCategories.find(
-          (subCategory) => subCategory.id === destinationSubCategoryId
-        );
-
-        if (originalSubCategory && destinationSubCategory) {
-          const movedTodo = originalSubCategory.todos.find(
-            (todo) => todo.id === movedTodoID
+          const originalSubCategory = updatedCategory.subCategories.find(
+            (subCategory) =>
+              subCategory.todos.some((todo) => todo.id === movedTodoID)
           );
-          originalSubCategory.todos = originalSubCategory.todos.filter(
-            (todo) => todo.id !== movedTodoID
+          const destinationSubCategory = updatedCategory.subCategories.find(
+            (subCategory) => subCategory.id === destinationSubCategoryId
           );
 
-          if (movedTodo) {
-            destinationSubCategory.todos.push(movedTodo);
+          if (originalSubCategory && destinationSubCategory) {
+            const movedTodo = originalSubCategory.todos.find(
+              (todo) => todo.id === movedTodoID
+            );
+            originalSubCategory.todos = originalSubCategory.todos.filter(
+              (todo) => todo.id !== movedTodoID
+            );
+
+            if (movedTodo) {
+              destinationSubCategory.todos.push(movedTodo);
+            }
+
+            setCurrentCategory(updatedCategory);
           }
-
-          setCurrentCategory(updatedCategory);
         }
-      }
-    });
+      })
+      .catch((err) => {
+        setError(err?.message);
+      });
   };
 
   const editCategory = (newCategory: ICategory) => {
-    patch(`/categories/${newCategory.id}`, newCategory).then(() => {
-      if (currentCategory?.id === newCategory.id) {
-        setCurrentCategory(newCategory);
-      }
-      setCategories((prevCategories) =>
-        prevCategories.map((category) =>
-          category.id === newCategory.id ? newCategory : category
-        )
-      );
-    });
+    patch(`/categories/${newCategory.id}`, newCategory)
+      .then(() => {
+        if (currentCategory?.id === newCategory.id) {
+          setCurrentCategory(newCategory);
+        }
+        setCategories((prevCategories) =>
+          prevCategories.map((category) =>
+            category.id === newCategory.id ? newCategory : category
+          )
+        );
+      })
+      .catch((err) => {
+        setError(err?.message);
+      });
   };
 
   const editSubCategory = (newSubCategory: ISubCategory) => {
@@ -210,62 +238,79 @@ const TodoProvider = ({ children }: TodoProviderProps) => {
   };
 
   const editTodo = (newTodo: ITodo) => {
-    patch(`/todos/${newTodo.id}`, newTodo).then(() => {
-      if (currentCategory) {
-        setCurrentCategory((prevCategory) => {
-          if (!prevCategory) return prevCategory;
-          return {
-            ...prevCategory,
-            subCategories: prevCategory.subCategories.map((subCategory) => ({
-              ...subCategory,
-              todos: subCategory.todos.map((todo) =>
-                todo.id === newTodo.id ? newTodo : todo
-              )
-            }))
-          };
-        });
-      }
-    });
+    patch(`/todos/${newTodo.id}`, newTodo)
+      .then(() => {
+        if (currentCategory) {
+          setCurrentCategory((prevCategory) => {
+            if (!prevCategory) return prevCategory;
+            return {
+              ...prevCategory,
+              subCategories: prevCategory.subCategories.map((subCategory) => ({
+                ...subCategory,
+                todos: subCategory.todos.map((todo) =>
+                  todo.id === newTodo.id ? newTodo : todo
+                )
+              }))
+            };
+          });
+        }
+      })
+      .catch((err) => {
+        setError(err?.message);
+      });
   };
 
   const deleteCategory = (categoryId: string) => {
-    del(`/categories/${categoryId}`).then(() => {
-      setCategories((prevCategories) =>
-        prevCategories.filter((category) => category.id !== categoryId)
-      );
-    });
+    del(`/categories/${categoryId}`)
+      .then(() => {
+        setCategories((prevCategories) =>
+          prevCategories.filter((category) => category.id !== categoryId)
+        );
+      })
+      .catch((err) => {
+        setError(err?.message);
+      });
   };
 
   const deleteSubCategory = (subCategoryId: string) => {
-    del(`/sub-categories/${subCategoryId}`).then(() => {
-      if (currentCategory)
-        setCurrentCategory({
-          ...currentCategory,
-          subCategories: currentCategory.subCategories.filter(
-            (subCategory) => subCategory.id !== subCategoryId
-          )
-        });
-    });
+    del(`/sub-categories/${subCategoryId}`)
+      .then(() => {
+        if (currentCategory)
+          setCurrentCategory({
+            ...currentCategory,
+            subCategories: currentCategory.subCategories.filter(
+              (subCategory) => subCategory.id !== subCategoryId
+            )
+          });
+      })
+      .catch((err) => {
+        setError(err?.message);
+      });
   };
 
   const deleteTodo = (todoId: string) => {
-    del(`/todos/${todoId}`).then(() => {
-      if (currentCategory) {
-        setCurrentCategory((prevCategory) => {
-          if (!prevCategory) return prevCategory;
-          return {
-            ...prevCategory,
-            subCategories: prevCategory.subCategories.map((subCategory) => ({
-              ...subCategory,
-              todos: subCategory.todos.filter((todo) => todo.id !== todoId)
-            }))
-          };
-        });
-      }
-    });
+    del(`/todos/${todoId}`)
+      .then(() => {
+        if (currentCategory) {
+          setCurrentCategory((prevCategory) => {
+            if (!prevCategory) return prevCategory;
+            return {
+              ...prevCategory,
+              subCategories: prevCategory.subCategories.map((subCategory) => ({
+                ...subCategory,
+                todos: subCategory.todos.filter((todo) => todo.id !== todoId)
+              }))
+            };
+          });
+        }
+      })
+      .catch((err) => {
+        setError(err?.message);
+      });
   };
 
   const value = {
+    error,
     loadingStates,
     categories,
     currentCategory,

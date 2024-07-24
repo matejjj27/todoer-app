@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { ITodo, ISubCategory } from "../utils/types";
 import { TodoContext } from "../context/TodoProvider";
 import { DraggableProvided } from "react-beautiful-dnd";
+import { UIContext } from "../context/UIProvider";
 
 interface TodoProps {
   todoSubCategory: ISubCategory;
@@ -10,6 +11,7 @@ interface TodoProps {
 }
 
 const Todo = ({ todo, todoSubCategory, provided }: TodoProps) => {
+  const { isDarkMode } = useContext(UIContext);
   const { name, isCompleted } = todo;
   const { editTodo, deleteTodo } = useContext(TodoContext);
   const [isEditing, setIsEditing] = useState(false);
@@ -52,6 +54,12 @@ const Todo = ({ todo, todoSubCategory, provided }: TodoProps) => {
             <label
               htmlFor={`checkbox-${todo.id}`}
               className="border-2 rounded-full dark:border-white border-black"
+              style={{
+                backgroundColor: isCompleted
+                  ? todoSubCategory.color
+                  : "transparent",
+                borderColor: isDarkMode ? "#fff" : "#000"
+              }}
             />
           </div>
         </div>

@@ -8,6 +8,7 @@ import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import CatInfoSquare from "../components/CatInfoSquare.tsx";
 import { ThreeDots } from "react-loader-spinner";
+import ErrorMessage from "../components/ErrorMessage.tsx";
 
 Chart.register(CategoryScale);
 
@@ -15,7 +16,8 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
   const [newCategoryName, setNewCategoryName] = useState<string>("");
   const [isNewCategoryClicked, setIsNewCategoryClicked] =
     useState<boolean>(false);
-  const { categories, addNewCategory, loadingStates } = useContext(TodoContext);
+  const { error, categories, addNewCategory, loadingStates } =
+    useContext(TodoContext);
   const { isGetCategoriesLoading } = loadingStates;
 
   const [chartData, setChartData] = useState({
@@ -109,6 +111,8 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
               radius="9"
             />
           </div>
+        ) : error ? (
+          <ErrorMessage />
         ) : (
           <>
             <div className="flex flex-col gap-3">
