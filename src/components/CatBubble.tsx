@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { ICategory } from "../utils/types";
 import { TodoContext } from "../context/TodoProvider";
+import { UIContext } from "../context/UIProvider";
 
 interface CatBubbleProps {
   category: ICategory;
@@ -11,6 +12,7 @@ const CatBubble = ({ category }: CatBubbleProps) => {
   const [isEditClicked, setIsEditClicked] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState<string>(name);
 
+  const { isDarkMode } = useContext(UIContext);
   const { editCategory } = useContext(TodoContext);
 
   const totalTodos = subCategories.reduce((acc, subCategory) => {
@@ -85,16 +87,14 @@ const CatBubble = ({ category }: CatBubbleProps) => {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 25 25"
             fill="none"
-            viewBox="0 0 23 23"
-            strokeWidth={1.5}
-            stroke={"gray"}
-            className="w-4 h-4"
+            className="w-5 h-5"
           >
             <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+              d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5"
+              stroke={isDarkMode ? "lightgray" : "black"}
+              strokeWidth={1.3}
             />
           </svg>
         </div>
