@@ -20,22 +20,23 @@ export const UIContext = createContext<UI>({
 });
 
 const UIProvider = ({ children }: UIProviderProps) => {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    const darkMode = localStorage.getItem("darkMode");
+    return darkMode === null ? true : darkMode === "true";
+  });
 
   useEffect(() => {
-    const darkMode = localStorage.getItem("darkMode");
-    const isDark = darkMode === "false";
-    document.body.classList.toggle("dark", isDark);
-    setIsDarkMode(isDark);
-    localStorage.setItem("darkMode", String(isDark));
-  }, []);
+    document.body.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
 
   const setDarkMode = useCallback(() => {
-    const isDark = !isDarkMode;
-    document.body.classList.toggle("dark", isDark);
-    setIsDarkMode(isDark);
-    localStorage.setItem("darkMode", String(isDark));
-  }, [isDarkMode]);
+    setIsDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      document.body.classList.toggle("dark", newMode);
+      localStorage.setItem("darkMode", String(newMode));
+      return newMode;
+    });
+  }, []);
 
   const value = {
     isDarkMode,
