@@ -173,7 +173,7 @@ const Category = ({ isSideNavOpened }: ComponentWithSideNav) => {
               </div>
             ) : (
               <div
-                className="todo-card text-center justify-center cursor-pointer shadow-md dark:bg-gray-750 bg-gray-350"
+                className="todo-card text-center justify-center cursor-pointer shadow-md dark:bg-gray-750 bg-gray-350 hover:bg-opacity-30 hover:dark:bg-opacity-80"
                 onClick={() => setIsNewSubCategoryClicked(true)}
               >
                 {isFindCategoryByIdLoading ? (

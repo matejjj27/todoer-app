@@ -334,7 +334,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
                     </span>
                     {!isEditClicked && (
                       <span
-                        className={`inline-flex items-center justify-center px-1.5 py-0.5 ms-3 text-xs font-medium text-gray-800 bg-gray-300 rounded-full dark:bg-gray-700 dark:text-gray-300`}
+                        className={`inline-flex items-center justify-center px-1.5 py-0.5 ms-3 text-xs font-medium text-gray-800 bg-gray-300 rounded-full dark:bg-gray-600 dark:text-gray-300`}
                       >
                         {categories
                           ? category.subCategories?.reduce(
@@ -377,7 +377,7 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
                 </li>
               ) : (
                 <div
-                  className="cursor-pointer flex justify-center p-2"
+                  className="cursor-pointer w-6 mx-auto rounded-xl p-0.5 hover:bg-gray-100 hover:bg-opacity-20"
                   onClick={() => setIsNewCategoryClicked(true)}
                 >
                   <PlusIcon

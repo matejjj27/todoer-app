@@ -67,8 +67,8 @@ function TodoCard({ todoSubCategory, isDraggingOver }: TodoCardProps) {
                     style={{
                       backgroundColor: snapshot.isDragging
                         ? isDarkMode
-                          ? 'rgba(256, 256, 256, 0.2)'
-                          : 'rgba(256, 256, 256, 0.2)'
+                          ? "rgba(256, 256, 256, 0.2)"
+                          : "rgba(256, 256, 256, 0.2)"
                         : "",
                       padding: 4,
                       borderRadius: 6
@@ -101,9 +101,9 @@ function TodoCard({ todoSubCategory, isDraggingOver }: TodoCardProps) {
           </div>
         )}
       </div>
-      {!isDraggingOver && (
+      {!isDraggingOver && !isNewTodoClicked && (
         <div
-          className="cursor-pointer self-center"
+          className="cursor-pointer self-center hover:bg-gray-100 hover:bg-opacity-20 rounded-xl p-0.5"
           onClick={() => setIsNewTodoClicked(true)}
         >
           <PlusIcon height={22} color={isDarkMode ? "white" : "black"} />

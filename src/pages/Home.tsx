@@ -138,7 +138,7 @@ const Home = ({ isSideNavOpened }: ComponentWithSideNav) => {
                 </div>
               ) : (
                 <div
-                  className="cursor-pointer rounded-xl justify-center flex bg-blue-800 py-2.5 w-60"
+                  className="cursor-pointer rounded-xl justify-center flex bg-blue-800 py-2.5 w-60 hover:bg-opacity-90"
                   onClick={() => setIsNewCategoryClicked(true)}
                 >
                   <h1 className="text-white text-xs">+ NEW CATEGORY</h1>

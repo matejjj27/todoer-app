@@ -37,7 +37,7 @@ const Category = ({ todoSubCategory }: CategoryProps) => {
 
   return (
     <div
-      className="flex justify-between gap-2"
+      className="flex justify-between mr-6"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -47,20 +47,20 @@ const Category = ({ todoSubCategory }: CategoryProps) => {
         onFocus={() => setIsEditing(true)}
         className={`${
           isEditing ? "" : "cursor-pointer"
-        } flex-grow text-2xl bg-transparent text-gray-900 dark:text-white overflow-hidden whitespace-nowrap max-w-full border-none outline-none`}
+        } pr-2 flex-grow text-2xl bg-transparent text-gray-900 dark:text-white overflow-hidden whitespace-nowrap max-w-full border-none outline-none`}
         value={editedLabel}
         onChange={(e) => setEditedLabel(e.target.value)}
         onBlur={handleEditSubCategory}
       />
-      <div className="cursor-pointer self-center text-gray-900 dark:text-white">
+      <div className="cursor-pointer self-center text-gray-900 dark:text-white hover:bg-gray-100 hover:bg-opacity-20 rounded-lg p-0.5">
         {isHovered && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
-            viewBox="0 0 22 22"
+            viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-5 h-5"
             onClick={() => setIsDeleteModalOpen(true)}
           >
             <path
