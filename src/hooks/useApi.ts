@@ -28,7 +28,7 @@ interface ApiHooks {
 const useApi = (): ApiHooks => {
   const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
-    timeout: 5000
+    timeout: 6000
   });
 
   api.interceptors.request.use(async (config) => {

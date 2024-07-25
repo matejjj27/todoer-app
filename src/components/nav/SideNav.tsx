@@ -297,16 +297,21 @@ const SideNav = ({ isSideNavOpened, toggleSideNav }: ComponentWithSideNav) => {
                   onClick={() => handleCategoryOpen(category)}
                 >
                   <a
-                    className={`flex cursor-pointer items-center ml-1 p-2 text-gray-900 transition duration-75 rounded-lg ${" hover:bg-gray-100 dark:hover:bg-gray-650"}  dark:text-white group`}
+                    className={`flex items-center ml-1 p-2 text-gray-900 transition duration-75 rounded-lg ${
+                      isEditClicked
+                        ? ""
+                        : "hover:bg-gray-100 dark:hover:bg-gray-650 cursor-pointer"
+                    }  dark:text-white group`}
                   >
                     {isEditClicked ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        strokeWidth={1.5}
+                        strokeWidth={1.4}
                         stroke={isDarkMode ? "white" : "black"}
-                        className="w-4 h-4 mr-2"
+                        style={{ marginLeft: -4, marginRight: -4 }}
+                        className="w-6 h-6 rounded-lg p-1 hover:bg-gray-100 dark:hover:bg-gray-650 cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
                           setIsDeleteCategoryClicked(true);
